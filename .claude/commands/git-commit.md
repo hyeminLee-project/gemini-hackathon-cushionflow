@@ -1,6 +1,10 @@
 ---
 name: git-commit
-description: A skill for writing Git commit messages. It follows rules combining Conventional Commits and Gitmoji to maintain a consistent commit history.
+description: >
+  Stages changes and writes a Git commit message following Conventional Commits + Gitmoji.
+  Use when committing code, when the user says "commit this", "커밋해줘", "write a commit message",
+  or after completing a unit of work.
+allowed-tools: Bash(git diff --staged), Bash(git add *), Bash(git commit *)
 ---
 
 # Git Commit Message Convention

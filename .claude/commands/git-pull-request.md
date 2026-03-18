@@ -1,45 +1,41 @@
 ---
 name: git-pull-request
-description: This skill is used by the AI agent to automatically generate Pull Request (PR) content by analyzing Git commit logs and branch strategies. It activates when the user requests to "Create a PR," "Summarize changes," or specifies a commit range for documentation.
+description: >
+  Generates Pull Request content by analyzing git commit logs and branch diffs.
+  Use when the user says "PR 만들어줘", "write a PR", "summarize changes",
+  "PR 내용 작성해줘", or when a branch is ready to merge into main.
+allowed-tools: Bash(git log *), Bash(git diff *), Bash(git branch *), Bash(gh pr *)
 ---
+
+## Live Branch Context
+
+- Current branch: !`git branch --show-current`
+- Commits vs main: !`git log --oneline main..HEAD`
+- Changed files: !`git diff --name-status main..HEAD`
+- Diff summary: !`git diff --stat main..HEAD`
 
 # Git Pull Request Message Convention
 
 This skill automates the analysis of commit logs to save time and ensure consistent PR documentation according to team conventions.
 
-## When to Use This Skill
-
-Activate this skill when the user:
-
-- Requests PR creation ("Write a PR for me," "Generate PR content").
-- Needs a summary of work between branches or specific commits ("[Hash] to latest").
-- Has completed work in `features/*`, `hotfix/*`, or `develop` branches and is ready to merge.
-
 ## How to Generate Pull Request Content
 
-### Step 1: Environment & Branch Analysis
+### Step 1: Determine Parent Branch
 
-The agent identifies the current environment and determines the target parent branch.
-
-1. **Check Current Branch**: `git branch --show-current`
-2. **Determine Parent Branch**:
+Use the injected branch context above. Map branch type to parent:
 
    | Current Branch | Parent Branch         | Description                          |
    | :------------- | :-------------------- | :----------------------------------- |
-   | `features/*`   | `main` (or `develop`) | Feature branches PR to main/develop. |
+   | `feature/*`    | `main` (or `develop`) | Feature branches PR to main/develop. |
    | `hotfix/*`     | `main`                | Hotfixes PR directly to main.        |
    | Others         | `main`                | Default target is main.              |
 
 ### Step 2: Extract Changes
 
-Analyze the differences between the parent branch and the current branch.
+Use the injected diff and commit data above. If more detail is needed:
 
-- **Commit Log Analysis**:
-  - `git log --oneline <parent-branch>..<current-branch>`
-  - `git log --format="%h|%s|%b" <parent-branch>..<current-branch>`
-- **File Diff Analysis**:
-  - `git diff --name-status <parent-branch>..<current-branch>`
-  - `git diff --stat <parent-branch>..<current-branch>`
+- **Full commit log**: `git log --format="%h|%s|%b" main..HEAD`
+- **File diff**: `git diff --name-status main..HEAD`
 
 ### Step 3: Parse and Categorize Commits
 
