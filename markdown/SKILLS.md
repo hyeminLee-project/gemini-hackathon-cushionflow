@@ -7,19 +7,21 @@ All skills live in [`.claude/commands/`](../.claude/commands/) and are invoked w
 
 ### `/git-commit`
 **File:** `.claude/commands/git-commit.md`
+**Allowed tools:** `Bash(git diff --staged)`, `Bash(git add *)`, `Bash(git commit *)`
 
 Drafts and creates a Git commit message following the Conventional Commits + Gitmoji convention defined in [`GIT_COMMIT.md`](GIT_COMMIT.md).
 
-**When to use:** After completing a unit of work and verifying it builds/lints cleanly.
+**Triggers:** "commit this", "커밋해줘", "write a commit message"
 
 ---
 
 ### `/git-pull-request`
 **File:** `.claude/commands/git-pull-request.md`
+**Allowed tools:** `Bash(git log *)`, `Bash(git diff *)`, `Bash(git branch *)`, `Bash(gh pr *)`
 
-Analyzes the commit log and diff between the current branch and its parent branch, then generates structured PR content ready for GitHub.
+Injects live branch/diff context at invocation time, then generates structured PR content ready for GitHub. Outputs a `PULL_REQUEST.md` or `gh pr create` command.
 
-**When to use:** When work on a branch is complete and ready to merge. Outputs a `PULL_REQUEST.md` or content for `gh pr create`.
+**Triggers:** "PR 만들어줘", "write a PR", "summarize changes", "PR 내용 작성해줘"
 
 ---
 

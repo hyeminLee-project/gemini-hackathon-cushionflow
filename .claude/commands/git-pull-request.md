@@ -138,5 +138,5 @@ The agent must output the PR using the following Markdown structure. **Sections 
 ## Constraints & Warnings
 
 1. **Git Repository Required**: This skill only functions within a valid Git environment.
-2. **Branch Naming**: Incorrect branch naming (not following `features/*` etc.) may lead to incorrect parent branch detection.
+2. **Branch Naming**: Incorrect branch naming (not following `feature/*` etc.) may lead to incorrect parent branch detection.
 3. **Manual Review**: Always advise the user to review the generated content before final submission.

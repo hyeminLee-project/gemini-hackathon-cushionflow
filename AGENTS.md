@@ -18,6 +18,7 @@ Guidelines for AI agents (Claude Code, Cursor, Copilot, etc.) working in this re
 | `src/app/api/cushion/route.ts` | POST API endpoint |
 | `src/lib/prompts.ts` | Gemini system prompt builder |
 | `src/lib/types.ts` | Shared TypeScript types |
+| `.claude/commands/` | Custom slash commands (`/git-commit`, `/git-pull-request`) |
 
 ## Conventions to Follow
 
