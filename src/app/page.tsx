@@ -116,8 +116,8 @@ export default function Home() {
       }
 
       setResult(data);
-    } catch (err: any) {
-      setError(err.message);
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : "오류가 발생했습니다.");
     } finally {
       setIsLoading(false);
     }
@@ -187,6 +187,7 @@ export default function Home() {
               {/* 이미지 미리보기 구역 */}
               {imagePreview ? (
                 <div className="mt-4 relative inline-block">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img src={imagePreview} alt="Uploaded" className="max-h-32 rounded-lg border border-white/10 opacity-80" />
                   <button
                     onClick={clearImage}
