@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useRef } from "react";
+import { CushionResponsePayload } from "@/lib/types";
 import { ShieldCheck, Sparkles, CheckCircle2, Loader2, ChevronDown, AlertCircle, ImagePlus, X } from "lucide-react";
 
 const MBTI_TYPES = [
@@ -29,12 +30,7 @@ export default function Home() {
   const [isDragging, setIsDragging] = useState(false);
 
   const [isLoading, setIsLoading] = useState(false);
-  const [result, setResult] = useState<{
-    score: number;
-    suggestion: string;
-    koreanTranslation?: string | null;
-    insights: string[]
-  } | null>(null);
+  const [result, setResult] = useState<CushionResponsePayload | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement> | React.DragEvent<HTMLDivElement>) => {
