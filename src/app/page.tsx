@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { CushionResponsePayload } from "@/lib/types";
 import {
   ShieldCheck,
@@ -41,6 +41,14 @@ export default function Home() {
   const [isDragging, setIsDragging] = useState(false);
 
   const [isCopied, setIsCopied] = useState(false);
+  const copyTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(() => {
+    return () => {
+      if (copyTimeoutRef.current) clearTimeout(copyTimeoutRef.current);
+    };
+  }, []);
+
   const [isLoading, setIsLoading] = useState(false);
   const [result, setResult] = useState<CushionResponsePayload | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -101,9 +109,14 @@ export default function Home() {
   };
 
   const handleCopy = async (text: string) => {
-    await navigator.clipboard.writeText(text);
-    setIsCopied(true);
-    setTimeout(() => setIsCopied(false), 2000);
+    try {
+      await navigator.clipboard.writeText(text);
+      if (copyTimeoutRef.current) clearTimeout(copyTimeoutRef.current);
+      setIsCopied(true);
+      copyTimeoutRef.current = setTimeout(() => setIsCopied(false), 2000);
+    } catch {
+      setError("클립보드 복사에 실패했습니다.");
+    }
   };
 
   const handleConvert = async () => {
@@ -375,9 +388,15 @@ export default function Home() {
                           className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/5 border border-white/10 text-sm text-zinc-400 hover:text-indigo-400 hover:border-indigo-500/30 transition-all"
                         >
                           {isCopied ? (
-                            <><Check className="w-4 h-4 text-emerald-400" /><span className="text-emerald-400">복사됨</span></>
+                            <>
+                              <Check className="w-4 h-4 text-emerald-400" />
+                              <span className="text-emerald-400">복사됨</span>
+                            </>
                           ) : (
-                            <><Copy className="w-4 h-4" />복사</>
+                            <>
+                              <Copy className="w-4 h-4" />
+                              복사
+                            </>
                           )}
                         </button>
                       </div>
