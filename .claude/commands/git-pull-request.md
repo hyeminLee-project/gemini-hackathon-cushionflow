@@ -67,7 +67,9 @@ Map commits to PR categories based on Gitmojis and Types.
 
 ### Step 4: Generate PR Content
 
-Apply the template from `.github/PULL_REQUEST_TEMPLATE.md` or the internal guide. Generate **Review Points** by identifying complex logic or potential side effects in the code changes.
+Fill in `.github/PULL_REQUEST_TEMPLATE.md` using the commit and diff data above.
+- Omit any section that does not apply (do not leave empty headers or "N/A")
+- Generate **Review Points** by identifying critical logic, trade-offs, or potential side effects
 
 ### Step 5: Finalize and Save PR Content
 
