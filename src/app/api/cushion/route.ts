@@ -1,10 +1,10 @@
-import { GoogleGenerativeAI } from "@google/generative-ai";
+import { GoogleGenerativeAI, Part } from "@google/generative-ai";
 import { NextResponse } from "next/server";
-import { CushionRequestPayload } from "@/lib/types";
+import { CushionRequestPayload, CushionResponsePayload } from "@/lib/types";
 import { buildCushionPrompt } from "@/lib/prompts";
 
-// Initialize Gemini API
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || "");
+const TIMEOUT_MS = 30_000;
 
 export async function POST(req: Request) {
     try {
@@ -19,30 +19,41 @@ export async function POST(req: Request) {
         const { originalMessage, mbti, context, imageBase64, imageMimeType } = body;
 
         const prompt = buildCushionPrompt({ originalMessage, mbti, context });
-
         const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
 
-        const parts: any[] = [{ text: prompt }];
+        const parts: Part[] = [{ text: prompt }];
 
         if (imageBase64 && imageMimeType) {
             parts.push({
                 inlineData: {
                     data: imageBase64,
-                    mimeType: imageMimeType
-                }
+                    mimeType: imageMimeType,
+                },
             });
         }
 
-        const result = await model.generateContent({
-            contents: [{ role: "user", parts }],
-        });
+        const timeoutPromise = new Promise<never>((_, reject) =>
+            setTimeout(() => reject(new Error("Gemini API request timed out")), TIMEOUT_MS)
+        );
 
-        const response = await result.response;
-        const text = response.text();
+        const result = await Promise.race([
+            model.generateContent({ contents: [{ role: "user", parts }] }),
+            timeoutPromise,
+        ]);
 
-        // JSON 파싱 (마크다운 코드 블록 제거)
+        const text = result.response.text();
         const jsonString = text.replace(/```json\n?|```/g, "").trim();
-        const data = JSON.parse(jsonString);
+
+        let data: CushionResponsePayload;
+        try {
+            data = JSON.parse(jsonString);
+        } catch {
+            console.error("Failed to parse Gemini response:", jsonString);
+            return NextResponse.json(
+                { error: "AI 응답을 파싱하는 데 실패했습니다. 잠시 후 다시 시도해주세요." },
+                { status: 502 }
+            );
+        }
 
         return NextResponse.json(data);
     } catch (error) {
