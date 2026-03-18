@@ -2,7 +2,18 @@
 
 import { useState, useRef } from "react";
 import { CushionResponsePayload } from "@/lib/types";
-import { ShieldCheck, Sparkles, CheckCircle2, Loader2, ChevronDown, AlertCircle, ImagePlus, X } from "lucide-react";
+import {
+  ShieldCheck,
+  Sparkles,
+  CheckCircle2,
+  Loader2,
+  ChevronDown,
+  AlertCircle,
+  ImagePlus,
+  X,
+  Copy,
+  Check,
+} from "lucide-react";
 
 const MBTI_TYPES = [
   "INTJ", "INTP", "ENTJ", "ENTP",
@@ -29,6 +40,7 @@ export default function Home() {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [isDragging, setIsDragging] = useState(false);
 
+  const [isCopied, setIsCopied] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [result, setResult] = useState<CushionResponsePayload | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -86,6 +98,12 @@ export default function Home() {
     setImageBase64(null);
     setImageMimeType(null);
     if (fileInputRef.current) fileInputRef.current.value = "";
+  };
+
+  const handleCopy = async (text: string) => {
+    await navigator.clipboard.writeText(text);
+    setIsCopied(true);
+    setTimeout(() => setIsCopied(false), 2000);
   };
 
   const handleConvert = async () => {
@@ -347,10 +365,22 @@ export default function Home() {
                   {/* Suggestion & Insight */}
                   <div className="flex-1 space-y-6">
                     <div>
-                      <h3 className="text-lg font-semibold text-indigo-300 mb-3 flex items-center gap-2">
-                        <Sparkles className="w-5 h-5" />
-                        쿠션어 제안
-                      </h3>
+                      <div className="flex items-center justify-between mb-3">
+                        <h3 className="text-lg font-semibold text-indigo-300 flex items-center gap-2">
+                          <Sparkles className="w-5 h-5" />
+                          쿠션어 제안
+                        </h3>
+                        <button
+                          onClick={() => handleCopy(result.suggestion)}
+                          className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/5 border border-white/10 text-sm text-zinc-400 hover:text-indigo-400 hover:border-indigo-500/30 transition-all"
+                        >
+                          {isCopied ? (
+                            <><Check className="w-4 h-4 text-emerald-400" /><span className="text-emerald-400">복사됨</span></>
+                          ) : (
+                            <><Copy className="w-4 h-4" />복사</>
+                          )}
+                        </button>
+                      </div>
                       <div className="p-5 bg-white/[0.03] border border-white/10 rounded-xl">
                         <p className="text-zinc-200 text-lg leading-relaxed whitespace-pre-wrap">
                           {result.suggestion}
