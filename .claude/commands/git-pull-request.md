@@ -24,11 +24,11 @@ This skill automates the analysis of commit logs to save time and ensure consist
 
 Use the injected branch context above. Map branch type to parent:
 
-   | Current Branch | Parent Branch         | Description                          |
-   | :------------- | :-------------------- | :----------------------------------- |
-   | `feature/*`    | `main` (or `develop`) | Feature branches PR to main/develop. |
-   | `hotfix/*`     | `main`                | Hotfixes PR directly to main.        |
-   | Others         | `main`                | Default target is main.              |
+| Current Branch | Parent Branch         | Description                          |
+| :------------- | :-------------------- | :----------------------------------- |
+| `feature/*`    | `main` (or `develop`) | Feature branches PR to main/develop. |
+| `hotfix/*`     | `main`                | Hotfixes PR directly to main.        |
+| Others         | `main`                | Default target is main.              |
 
 ### Step 2: Extract Changes
 
@@ -68,6 +68,7 @@ Map commits to PR categories based on Gitmojis and Types.
 ### Step 4: Generate PR Content
 
 Fill in `.github/PULL_REQUEST_TEMPLATE.md` using the commit and diff data above.
+
 - Omit any section that does not apply (do not leave empty headers or "N/A")
 - Generate **Review Points** by identifying critical logic, trade-offs, or potential side effects
 

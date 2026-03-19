@@ -11,12 +11,15 @@
 <!-- List changes categorized by type. Remove categories that don't apply. -->
 
 ### Features
+
 - [ ]
 
 ### Fixes
+
 - [ ]
 
 ### Refactoring & Chores
+
 - [ ]
 
 ## ⚠️ Breaking Changes
