@@ -1,15 +1,15 @@
 import { CushionRequestPayload } from "./types";
 
 export function buildCushionPrompt({
-    originalMessage,
-    mbti,
-    context,
+  originalMessage,
+  mbti,
+  context,
 }: CushionRequestPayload): string {
-    const messagePromptText = originalMessage
-        ? `\n    - 원본 메시지 텍스트: "${originalMessage}"`
-        : `\n    - 원본 메시지 텍스트: (제공되지 않음. 첨부된 이미지 내용을 원본 메시지로 간주하고 분석해주세요.)`;
+  const messagePromptText = originalMessage
+    ? `\n    - 원본 메시지 텍스트: "${originalMessage}"`
+    : `\n    - 원본 메시지 텍스트: (제공되지 않음. 첨부된 이미지 내용을 원본 메시지로 간주하고 분석해주세요.)`;
 
-    return `
+  return `
     당신은 직장 내 원활한 협업을 돕는 비즈니스 커뮤니케이션 에이전트 'CushionFlow'입니다.
     사용자가 작성한 메시지(또는 첨부된 스크린샷 이미지)를 분석하고, 수신자의 업무 성향(MBTI)과 상황 맥락을 고려하여 사내 갈등을 예방하는 건설적이고 정중한 '쿠션어'로 변환해 주세요.
 

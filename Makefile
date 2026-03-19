@@ -20,6 +20,12 @@ start: ## 프로덕션 서버 실행
 lint: ## ESLint 실행
 	bun run lint
 
+format: ## Prettier 포맷 적용
+	bun run format
+
+format-check: ## Prettier 포맷 검사
+	bun run format:check
+
 typecheck: ## TypeScript 타입 체크
 	./node_modules/.bin/tsc --noEmit
 

@@ -14,16 +14,16 @@ This project follows a consistent branch naming convention to keep the repositor
 
 ## Types
 
-| Type       | When to Use                                               | Example                           |
-| :--------- | :-------------------------------------------------------- | :-------------------------------- |
-| `feature`  | New user-facing feature                                   | `feature/mbti-selector`           |
-| `fix`      | Bug fix (non-urgent)                                      | `fix/json-parse-error`            |
-| `hotfix`   | Urgent fix on production                                  | `hotfix/api-key-leak`             |
-| `chore`    | Tooling, dependencies, config changes (no product code)  | `chore/add-husky`                 |
-| `refactor` | Code restructuring without behavior change               | `refactor/extract-prompt-builder` |
-| `docs`     | Documentation only                                        | `docs/update-readme`              |
-| `test`     | Adding or fixing tests                                    | `test/route-handler-validation`   |
-| `release`  | Preparing a new version release                          | `release/v1.0.0`                  |
+| Type       | When to Use                                             | Example                           |
+| :--------- | :------------------------------------------------------ | :-------------------------------- |
+| `feature`  | New user-facing feature                                 | `feature/mbti-selector`           |
+| `fix`      | Bug fix (non-urgent)                                    | `fix/json-parse-error`            |
+| `hotfix`   | Urgent fix on production                                | `hotfix/api-key-leak`             |
+| `chore`    | Tooling, dependencies, config changes (no product code) | `chore/add-husky`                 |
+| `refactor` | Code restructuring without behavior change              | `refactor/extract-prompt-builder` |
+| `docs`     | Documentation only                                      | `docs/update-readme`              |
+| `test`     | Adding or fixing tests                                  | `test/route-handler-validation`   |
+| `release`  | Preparing a new version release                         | `release/v1.0.0`                  |
 
 ## Rules
 

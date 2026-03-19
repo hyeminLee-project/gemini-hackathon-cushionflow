@@ -6,6 +6,7 @@ All skills live in [`.claude/commands/`](../.claude/commands/) and are invoked w
 ## Project-Specific Skills
 
 ### `/git-commit`
+
 **File:** `.claude/commands/git-commit.md`
 **Allowed tools:** `Bash(git diff --staged)`, `Bash(git add *)`, `Bash(git commit *)`
 
@@ -16,6 +17,7 @@ Drafts and creates a Git commit message following the Conventional Commits + Git
 ---
 
 ### `/git-pull-request`
+
 **File:** `.claude/commands/git-pull-request.md`
 **Allowed tools:** `Bash(git log *)`, `Bash(git diff *)`, `Bash(git branch *)`, `Bash(gh pr *)`
 
@@ -28,6 +30,7 @@ Injects live branch/diff context at invocation time, then generates structured P
 ## Built-in Claude Code Skills
 
 ### `/simplify`
+
 Reviews recently changed code for unnecessary complexity, duplication, or abstraction and fixes issues found.
 
 **When to use:** After a large feature or refactor to trim excess code before committing.
@@ -35,6 +38,7 @@ Reviews recently changed code for unnecessary complexity, duplication, or abstra
 ---
 
 ### `/update-config`
+
 Modifies Claude Code `settings.json` to add permissions, hooks, or environment variables.
 
 **When to use:** Adding allowed commands, setting up automated hooks, or adding environment variables.

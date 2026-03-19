@@ -13,13 +13,13 @@ Guidelines for Claude Code working in this repository.
 
 ## Key Files
 
-| Path | Role |
-| :--- | :--- |
-| `src/app/page.tsx` | Main UI component |
-| `src/app/api/cushion/route.ts` | POST API endpoint |
-| `src/lib/prompts.ts` | Gemini system prompt builder |
-| `src/lib/types.ts` | Shared TypeScript types |
-| `.claude/commands/` | Custom slash commands (`/git-commit`, `/git-pull-request`) |
+| Path                           | Role                                                       |
+| :----------------------------- | :--------------------------------------------------------- |
+| `src/app/page.tsx`             | Main UI component                                          |
+| `src/app/api/cushion/route.ts` | POST API endpoint                                          |
+| `src/lib/prompts.ts`           | Gemini system prompt builder                               |
+| `src/lib/types.ts`             | Shared TypeScript types                                    |
+| `.claude/commands/`            | Custom slash commands (`/git-commit`, `/git-pull-request`) |
 
 ## Commands
 
@@ -70,16 +70,21 @@ For multi-step tasks, state a brief plan before starting:
 ## Conventions
 
 ### Commits
+
 Follow [`markdown/GIT_COMMIT.md`](markdown/GIT_COMMIT.md).
+
 - Format: `<gitmoji> <type>(<scope>): <subject>`
 - Language: English
 
 ### Branches
+
 Follow [`markdown/BRANCH_NAMING.md`](markdown/BRANCH_NAMING.md).
+
 - Format: `<type>/<short-description>`
 - Never commit directly to `main`.
 
 ### Code Style
+
 - TypeScript strict mode — avoid `any`.
 - Prefer editing existing files over creating new ones.
 - No comments unless logic is non-obvious.
