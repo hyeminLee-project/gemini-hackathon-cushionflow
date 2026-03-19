@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useRef } from "react";
+import { CushionResponsePayload } from "@/lib/types";
 import { ShieldCheck, Sparkles, CheckCircle2, Loader2, ChevronDown, AlertCircle, ImagePlus, X } from "lucide-react";
 
 const MBTI_TYPES = [
@@ -29,12 +30,7 @@ export default function Home() {
   const [isDragging, setIsDragging] = useState(false);
 
   const [isLoading, setIsLoading] = useState(false);
-  const [result, setResult] = useState<{
-    score: number;
-    suggestion: string;
-    koreanTranslation?: string | null;
-    insights: string[]
-  } | null>(null);
+  const [result, setResult] = useState<CushionResponsePayload | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement> | React.DragEvent<HTMLDivElement>) => {
@@ -50,6 +46,12 @@ export default function Home() {
 
     if (!file.type.startsWith('image/')) {
       setError("이미지 파일만 업로드 가능합니다.");
+      return;
+    }
+
+    const MAX_SIZE_MB = 5;
+    if (file.size > MAX_SIZE_MB * 1024 * 1024) {
+      setError(`이미지 크기는 ${MAX_SIZE_MB}MB 이하만 업로드 가능합니다.`);
       return;
     }
 
@@ -116,8 +118,8 @@ export default function Home() {
       }
 
       setResult(data);
-    } catch (err: any) {
-      setError(err.message);
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : "오류가 발생했습니다.");
     } finally {
       setIsLoading(false);
     }
@@ -187,6 +189,7 @@ export default function Home() {
               {/* 이미지 미리보기 구역 */}
               {imagePreview ? (
                 <div className="mt-4 relative inline-block">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img src={imagePreview} alt="Uploaded" className="max-h-32 rounded-lg border border-white/10 opacity-80" />
                   <button
                     onClick={clearImage}
