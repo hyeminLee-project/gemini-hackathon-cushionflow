@@ -1,72 +1,125 @@
+<div align="center">
+
 # 🛡️ CushionFlow
 
+### AI-Powered Workplace Communication Optimizer
+
 **사내 갈등 제로, 완벽한 커뮤니케이션의 시작**
-**Zero Workplace Conflict. Perfect Communication, Every Time.**
 
-직장 내 심리적 부담이 큰 메시지를 수신자의 커뮤니케이션 스타일과 상황 맥락에 맞춰 최적화된 언어로 변환해주는 AI 에이전트입니다.
+[![Next.js](https://img.shields.io/badge/Next.js-16-black?logo=next.js)](https://nextjs.org/)
+[![Gemini](https://img.shields.io/badge/Gemini-2.5_Flash-4285F4?logo=google)](https://ai.google.dev/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4-06B6D4?logo=tailwindcss&logoColor=white)](https://tailwindcss.com/)
+[![Bun](https://img.shields.io/badge/Bun-runtime-F9F1E1?logo=bun)](https://bun.sh/)
 
-An AI agent that transforms high-stakes workplace messages into optimized communication — tailored to the recipient's communication style and situational context.
+[Demo](#-demo) · [Features](#-features) · [Getting Started](#-getting-started) · [Architecture](#-architecture)
 
----
-
-## 🎯 해결하는 문제 / Problem We Solve
-
-휴가 중 상사에게 긴급 보고, 상사 실수 지적 등 **말하기 어려운 직장 내 상황**에서 관계를 해치지 않고 핵심을 전달하는 최적의 메시지를 생성합니다.
-
-Urgent reports to a manager on vacation, pointing out a superior's mistake, last-minute escalations — **these moments carry enormous social risk.** CushionFlow helps you deliver the message without damaging the relationship.
+</div>
 
 ---
 
-## ✨ 주요 기능 / Key Features
+## 💡 Why CushionFlow?
 
-- 수신자 커뮤니케이션 스타일(MBTI) 기반 메시지 최적화
-  Message optimization based on recipient's communication style (MBTI)
-- 상황 맥락 분석 (휴가 중 보고, 상사 실수 지적, 긴급 요청 등)
-  Situational context analysis (vacation interruption, correcting superiors, urgent requests, etc.)
-- 메시지 수용도 점수 (0-100) 비교
-  Message acceptance score (0–100) before & after comparison
-- 비즈니스/커뮤니케이션 관점 에이전트 분석
-  Agent analysis from a business & communication perspective
-- 대화 캡처 이미지 첨부 (멀티모달)
-  Attach conversation screenshot for multimodal analysis
-- 쿠션어 제안 원클릭 복사
-  One-click copy for suggested message
+> "팀장님이 휴가 중인데… 긴급 보고를 해야 합니다."
+>
+> "상사의 실수를 지적해야 하는데, 어떻게 말해야 할까요?"
+
+직장에서 **말하기 어려운 순간**은 누구에게나 찾아옵니다. 잘못된 한마디가 관계를 망칠 수 있고, 너무 돌려 말하면 핵심이 전달되지 않습니다.
+
+**CushionFlow**는 수신자의 커뮤니케이션 스타일(MBTI)과 상황 맥락을 분석하여, 관계를 지키면서도 핵심을 전달하는 **최적의 쿠션어(cushion language)**를 제안합니다.
+
+Every workplace has moments where one wrong word can damage a relationship. CushionFlow uses Google Gemini to transform high-stakes messages into optimized communication — tailored to the recipient's personality and context.
 
 ---
 
-## 🛠️ 기술 스택 / Tech Stack
+## ✨ Features
 
-- Next.js 16 (App Router), React 19, TypeScript 5
-- Google Gemini 2.5 Flash API (`@google/generative-ai`)
-- Tailwind CSS 4
-- Bun
+| Feature | Description |
+| :--- | :--- |
+| 🧠 **MBTI-Based Optimization** | 16가지 MBTI 유형별 커뮤니케이션 스타일에 맞춘 메시지 변환 |
+| 🎯 **Context-Aware Analysis** | 휴가 중 보고, 상사 실수 지적, 긴급 요청 등 6가지 상황 맥락 지원 |
+| 📊 **Acceptance Score** | 원본 vs 변환 메시지의 수용도 점수(0–100) 비교 |
+| 🔍 **Multi-Agent Insights** | 비즈니스·커뮤니케이션 관점의 에이전트 분석 리포트 |
+| 🖼️ **Multimodal Input** | 대화 캡처 이미지 첨부로 맥락 파악 강화 |
+| 📋 **One-Click Copy** | 제안된 메시지 원클릭 복사 |
 
 ---
 
-## 🚀 실행 방법 / Getting Started
+## 🎬 Demo
+
+<div align="center">
+
+![CushionFlow Demo](docs/demo.gif)
+
+[▶ Watch full demo on YouTube](https://youtu.be/TpiD1BH1OB8)
+
+</div>
+
+---
+
+## 🏗️ Architecture
+
+```
+┌─────────────────────────────────────────────┐
+│                  Client                     │
+│          Next.js App Router (React 19)      │
+│                                             │
+│  ┌─────────┐  ┌──────────┐  ┌───────────┐  │
+│  │ Message  │  │   MBTI   │  │  Context  │  │
+│  │  Input   │  │ Selector │  │  Picker   │  │
+│  └────┬─────┘  └────┬─────┘  └─────┬─────┘  │
+│       └──────────────┼──────────────┘        │
+│                      ▼                       │
+│            POST /api/cushion                 │
+├─────────────────────────────────────────────┤
+│                  Server                     │
+│                                             │
+│  ┌──────────────────────────────────────┐   │
+│  │         API Route Handler            │   │
+│  │  • Input validation                  │   │
+│  │  • System prompt builder             │   │
+│  │  • Response parsing                  │   │
+│  └──────────────┬───────────────────────┘   │
+│                 │                            │
+│                 ▼                            │
+│  ┌──────────────────────────────────────┐   │
+│  │      Google Gemini 2.5 Flash         │   │
+│  │  • MBTI-aware prompt engineering     │   │
+│  │  • Multimodal analysis (text+image)  │   │
+│  └──────────────────────────────────────┘   │
+└─────────────────────────────────────────────┘
+```
+
+---
+
+## 🚀 Getting Started
+
+### Prerequisites
+
+- [Bun](https://bun.sh/) (v1.0+)
+- [Google Gemini API Key](https://aistudio.google.com/apikey)
+
+### Installation
 
 ```bash
-# 1. 레포 클론 / Clone the repo
+# Clone the repo
 git clone https://github.com/hyeminLee-project/gemini-hackathon-cushionflow.git
 cd gemini-hackathon-cushionflow
 
-# 2. 패키지 설치 / Install dependencies
+# Install dependencies
 bun install
 
-# 3. 환경 변수 설정 / Set up environment variables
+# Set up environment variables
 cp .env.example .env.local
-# .env.local에 GEMINI_API_KEY 입력 / Add your GEMINI_API_KEY
+# Add your GEMINI_API_KEY to .env.local
 
-# 4. 개발 서버 실행 / Start dev server
+# Start dev server
 make dev
-# or: bun run dev
 ```
 
-http://localhost:3000 접속 / Open http://localhost:3000
+Open [http://localhost:3000](http://localhost:3000) and start cushioning your messages!
 
----
-
-## 🐳 Docker로 실행 / Run with Docker
+### 🐳 Docker
 
 ```bash
 make docker-up
@@ -74,13 +127,54 @@ make docker-up
 
 ---
 
-## 📋 주요 명령어 / Commands
+## 📋 Commands
 
 | Command | Description |
 | :--- | :--- |
-| `make dev` | 개발 서버 실행 |
-| `make build` | 프로덕션 빌드 |
-| `make lint` | ESLint 실행 |
-| `make typecheck` | TypeScript 타입 체크 |
-| `make format` | Prettier 포매팅 |
-| `make docker-up` | Docker 컨테이너 실행 |
+| `make dev` | Start development server |
+| `make build` | Production build |
+| `make lint` | Run ESLint |
+| `make typecheck` | TypeScript type check |
+| `make format` | Prettier formatting |
+| `make docker-up` | Run with Docker |
+
+---
+
+## 🛠️ Tech Stack
+
+| Category | Technology |
+| :--- | :--- |
+| **Framework** | Next.js 16 (App Router) |
+| **Language** | TypeScript 5 (strict mode) |
+| **UI** | React 19 + Tailwind CSS 4 |
+| **AI** | Google Gemini 2.5 Flash |
+| **Icons** | Lucide React |
+| **Runtime** | Bun |
+
+---
+
+## 🤝 Contributing
+
+Contributions are welcome! Feel free to open an issue or submit a pull request.
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feat/amazing-feature`)
+3. Commit your changes following [Conventional Commits](https://www.conventionalcommits.org/)
+4. Push to the branch (`git push origin feat/amazing-feature`)
+5. Open a Pull Request
+
+---
+
+## 📄 License
+
+This project is open source and available under the [MIT License](LICENSE).
+
+---
+
+<div align="center">
+
+**If CushionFlow helps you communicate better, give it a ⭐!**
+
+Made with ❤️ for the [Google Gemini API Developer Competition](https://ai.google.dev/competition)
+
+</div>
