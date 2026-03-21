@@ -10,6 +10,14 @@ vi.mock("@google/generative-ai", () => ({
   },
 }));
 
+vi.mock("@/lib/supabase", () => ({
+  supabase: {
+    from: () => ({
+      insert: () => Promise.resolve({ error: null }),
+    }),
+  },
+}));
+
 vi.mock("next/server", () => ({
   NextResponse: {
     json: (body: unknown, init?: { status?: number }) => ({

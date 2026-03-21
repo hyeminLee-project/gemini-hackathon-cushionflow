@@ -3,6 +3,7 @@ import { NextResponse } from "next/server";
 import { cushionRequestSchema, CushionResponsePayload } from "@/lib/types";
 import { buildCushionPrompt } from "@/lib/prompts";
 import { createRateLimit } from "@/lib/rate-limit";
+import { supabase } from "@/lib/supabase";
 
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || "");
 const TIMEOUT_MS = 30_000;
@@ -70,6 +71,21 @@ export async function POST(req: Request) {
         { status: 502 }
       );
     }
+
+    supabase
+      .from("cushion_history")
+      .insert({
+        original_message: originalMessage,
+        mbti,
+        context,
+        score: data.score,
+        suggestion: data.suggestion,
+        korean_translation: data.koreanTranslation ?? null,
+        insights: data.insights,
+      })
+      .then(({ error: dbError }) => {
+        if (dbError) console.error("Failed to save history:", dbError);
+      });
 
     return NextResponse.json(data);
   } catch (error) {
