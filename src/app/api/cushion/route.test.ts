@@ -48,7 +48,7 @@ describe("POST /api/cushion", () => {
       body: JSON.stringify(validBody),
     });
 
-    const res = (await POST(req)) as { body: { error: string }; status: number };
+    const res = (await POST(req)) as unknown as { body: { error: string }; status: number };
     expect(res.status).toBe(500);
     expect(res.body.error).toContain("GEMINI_API_KEY");
 
@@ -67,7 +67,7 @@ describe("POST /api/cushion", () => {
       body: JSON.stringify(validBody),
     });
 
-    const res = (await POST(req)) as { body: typeof validResponse; status: number };
+    const res = (await POST(req)) as unknown as { body: typeof validResponse; status: number };
     expect(res.status).toBe(200);
     expect(res.body.score).toBe(85);
     expect(res.body.suggestion).toBe("수정된 메시지");
@@ -86,7 +86,7 @@ describe("POST /api/cushion", () => {
       body: JSON.stringify(validBody),
     });
 
-    const res = (await POST(req)) as { body: { error: string }; status: number };
+    const res = (await POST(req)) as unknown as { body: { error: string }; status: number };
     expect(res.status).toBe(502);
   });
 
@@ -100,7 +100,7 @@ describe("POST /api/cushion", () => {
       body: JSON.stringify(validBody),
     });
 
-    const res = (await POST(req)) as { body: { error: string }; status: number };
+    const res = (await POST(req)) as unknown as { body: { error: string }; status: number };
     expect(res.status).toBe(500);
   });
 
