@@ -11,6 +11,10 @@
 [![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4-06B6D4?logo=tailwindcss&logoColor=white)](https://tailwindcss.com/)
 [![Bun](https://img.shields.io/badge/Bun-runtime-F9F1E1?logo=bun)](https://bun.sh/)
+[![CI](https://github.com/hyeminLee-project/gemini-hackathon-cushionflow/actions/workflows/ci.yml/badge.svg)](https://github.com/hyeminLee-project/gemini-hackathon-cushionflow/actions)
+[![Coverage](https://img.shields.io/badge/coverage-76%25-yellow)](https://github.com/hyeminLee-project/gemini-hackathon-cushionflow)
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+[![Release](https://img.shields.io/github/v/release/hyeminLee-project/gemini-hackathon-cushionflow)](https://github.com/hyeminLee-project/gemini-hackathon-cushionflow/releases)
 
 [Demo](#-demo) · [Features](#-features) · [Getting Started](#-getting-started) · [Architecture](#-architecture)
 
