@@ -1,4 +1,4 @@
-.PHONY: help dev build start lint typecheck install clean docker-build docker-up docker-down
+.PHONY: help dev build start lint typecheck install clean docker-build docker-up docker-down test
 
 help: ## 사용 가능한 명령어 목록
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-15s\033[0m %s\n", $$1, $$2}'
@@ -28,6 +28,9 @@ format-check: ## Prettier 포맷 검사
 
 typecheck: ## TypeScript 타입 체크
 	./node_modules/.bin/tsc --noEmit
+
+test: ## 테스트 실행
+	bun run test
 
 # ── Docker ────────────────────────────────────────
 docker-build: ## Docker 이미지 빌드
