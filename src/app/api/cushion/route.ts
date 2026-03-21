@@ -1,13 +1,24 @@
 import { GoogleGenerativeAI, Part } from "@google/generative-ai";
 import { NextResponse } from "next/server";
-import { CushionRequestPayload, CushionResponsePayload } from "@/lib/types";
+import { cushionRequestSchema, CushionResponsePayload } from "@/lib/types";
 import { buildCushionPrompt } from "@/lib/prompts";
+import { createRateLimit } from "@/lib/rate-limit";
 
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || "");
 const TIMEOUT_MS = 30_000;
+const limiter = createRateLimit({ windowMs: 60_000, maxRequests: 10 });
 
 export async function POST(req: Request) {
   try {
+    const ip = req.headers.get("x-forwarded-for") ?? "anonymous";
+    const { success, retryAfter } = limiter.check(ip);
+    if (!success) {
+      return NextResponse.json(
+        { error: "요청이 너무 많습니다. 잠시 후 다시 시도해주세요." },
+        { status: 429, headers: { "Retry-After": String(Math.ceil(retryAfter / 1000)) } }
+      );
+    }
+
     if (!process.env.GEMINI_API_KEY) {
       return NextResponse.json(
         {
@@ -17,8 +28,11 @@ export async function POST(req: Request) {
       );
     }
 
-    const body: CushionRequestPayload = await req.json();
-    const { originalMessage, mbti, context, imageBase64, imageMimeType } = body;
+    const parsed = cushionRequestSchema.safeParse(await req.json());
+    if (!parsed.success) {
+      return NextResponse.json({ error: parsed.error.issues[0].message }, { status: 400 });
+    }
+    const { originalMessage, mbti, context, imageBase64, imageMimeType } = parsed.data;
 
     const prompt = buildCushionPrompt({ originalMessage, mbti, context });
     const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
