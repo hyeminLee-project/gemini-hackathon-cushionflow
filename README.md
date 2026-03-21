@@ -34,14 +34,14 @@ Every workplace has moments where one wrong word can damage a relationship. Cush
 
 ## ✨ Features
 
-| Feature | Description |
-| :--- | :--- |
-| 🧠 **MBTI-Based Optimization** | 16가지 MBTI 유형별 커뮤니케이션 스타일에 맞춘 메시지 변환 |
-| 🎯 **Context-Aware Analysis** | 휴가 중 보고, 상사 실수 지적, 긴급 요청 등 6가지 상황 맥락 지원 |
-| 📊 **Acceptance Score** | 원본 vs 변환 메시지의 수용도 점수(0–100) 비교 |
-| 🔍 **Multi-Agent Insights** | 비즈니스·커뮤니케이션 관점의 에이전트 분석 리포트 |
-| 🖼️ **Multimodal Input** | 대화 캡처 이미지 첨부로 맥락 파악 강화 |
-| 📋 **One-Click Copy** | 제안된 메시지 원클릭 복사 |
+| Feature                        | Description                                                     |
+| :----------------------------- | :-------------------------------------------------------------- |
+| 🧠 **MBTI-Based Optimization** | 16가지 MBTI 유형별 커뮤니케이션 스타일에 맞춘 메시지 변환       |
+| 🎯 **Context-Aware Analysis**  | 휴가 중 보고, 상사 실수 지적, 긴급 요청 등 6가지 상황 맥락 지원 |
+| 📊 **Acceptance Score**        | 원본 vs 변환 메시지의 수용도 점수(0–100) 비교                   |
+| 🔍 **Multi-Agent Insights**    | 비즈니스·커뮤니케이션 관점의 에이전트 분석 리포트               |
+| 🖼️ **Multimodal Input**        | 대화 캡처 이미지 첨부로 맥락 파악 강화                          |
+| 📋 **One-Click Copy**          | 제안된 메시지 원클릭 복사                                       |
 
 ---
 
@@ -129,27 +129,27 @@ make docker-up
 
 ## 📋 Commands
 
-| Command | Description |
-| :--- | :--- |
-| `make dev` | Start development server |
-| `make build` | Production build |
-| `make lint` | Run ESLint |
-| `make typecheck` | TypeScript type check |
-| `make format` | Prettier formatting |
-| `make docker-up` | Run with Docker |
+| Command          | Description              |
+| :--------------- | :----------------------- |
+| `make dev`       | Start development server |
+| `make build`     | Production build         |
+| `make lint`      | Run ESLint               |
+| `make typecheck` | TypeScript type check    |
+| `make format`    | Prettier formatting      |
+| `make docker-up` | Run with Docker          |
 
 ---
 
 ## 🛠️ Tech Stack
 
-| Category | Technology |
-| :--- | :--- |
-| **Framework** | Next.js 16 (App Router) |
-| **Language** | TypeScript 5 (strict mode) |
-| **UI** | React 19 + Tailwind CSS 4 |
-| **AI** | Google Gemini 2.5 Flash |
-| **Icons** | Lucide React |
-| **Runtime** | Bun |
+| Category      | Technology                 |
+| :------------ | :------------------------- |
+| **Framework** | Next.js 16 (App Router)    |
+| **Language**  | TypeScript 5 (strict mode) |
+| **UI**        | React 19 + Tailwind CSS 4  |
+| **AI**        | Google Gemini 2.5 Flash    |
+| **Icons**     | Lucide React               |
+| **Runtime**   | Bun                        |
 
 ---
 
