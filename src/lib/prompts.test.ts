@@ -4,7 +4,7 @@ import { buildCushionPrompt } from "./prompts";
 describe("buildCushionPrompt", () => {
   const baseInput = {
     originalMessage: "내일까지 보고서 보내주세요",
-    mbti: "ENTJ",
+    mbti: "ENTJ" as const,
     context: "긴급 요청",
   };
 
