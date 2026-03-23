@@ -16,7 +16,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 [![Release](https://img.shields.io/github/v/release/hyeminLee-project/gemini-hackathon-cushionflow)](https://github.com/hyeminLee-project/gemini-hackathon-cushionflow/releases)
 
-[Demo](#-demo) · [Features](#-features) · [Getting Started](#-getting-started) · [Architecture](#-architecture)
+[🌐 Live Demo](https://gemini-hackathon-cushionflow-app.vercel.app) · [Features](#-features) · [Getting Started](#-getting-started) · [Architecture](#-architecture)
 
 </div>
 
