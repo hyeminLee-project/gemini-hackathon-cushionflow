@@ -13,7 +13,7 @@ export function useLoadingSteps(isLoading: boolean) {
 
   useEffect(() => {
     if (isLoading) {
-      setStepIndex(0);
+      setStepIndex(0); // eslint-disable-line react-hooks/set-state-in-effect -- reset on loading start is intentional
       intervalRef.current = setInterval(() => {
         setStepIndex((prev) => Math.min(prev + 1, STEP_KEYS.length - 1));
       }, STEP_INTERVAL);
