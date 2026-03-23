@@ -10,6 +10,7 @@ import { ResultCard } from "@/components/ResultCard";
 import { useImageUpload } from "@/hooks/useImageUpload";
 import { useCushionConvert } from "@/hooks/useCushionConvert";
 import { useLocale } from "@/hooks/useLocale";
+import { useLoadingSteps } from "@/hooks/useLoadingSteps";
 
 export default function Home() {
   const { t } = useLocale();
@@ -18,6 +19,7 @@ export default function Home() {
   const [context, setContext] = useState("휴가 중 보고");
 
   const { isLoading, result, error, setError, convert } = useCushionConvert();
+  const { stepMessage, progress } = useLoadingSteps(isLoading);
   const image = useImageUpload(setError);
 
   const handleConvert = () =>
@@ -97,6 +99,23 @@ export default function Home() {
             </button>
           </div>
         </div>
+
+        {isLoading && (
+          <div className="mt-12 w-full max-w-3xl">
+            <div className="rounded-2xl border border-white/10 bg-zinc-900/50 p-6 backdrop-blur-md">
+              <div className="mb-3 flex items-center gap-2 text-sm font-semibold text-indigo-300">
+                <Loader2 className="h-4 w-4 animate-spin" />
+                {stepMessage}
+              </div>
+              <div className="h-1.5 w-full overflow-hidden rounded-full bg-zinc-800">
+                <div
+                  className="h-full rounded-full bg-gradient-to-r from-indigo-500 to-purple-500 transition-all duration-700 ease-out"
+                  style={{ width: `${progress}%` }}
+                />
+              </div>
+            </div>
+          </div>
+        )}
 
         {result && <ResultCard result={result} />}
       </main>
