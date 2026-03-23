@@ -1,17 +1,21 @@
+"use client";
+
 import { ShieldCheck } from "lucide-react";
+import { useLocale } from "@/hooks/useLocale";
 
 interface Props {
   insights: string[];
 }
 
 export function AnalysisCard({ insights }: Props) {
+  const { t } = useLocale();
   const data = Array.isArray(insights) ? insights : typeof insights === "string" ? [insights] : [];
 
   return (
     <div className="mt-6">
       <h3 className="mb-3 flex items-center gap-2 text-sm font-semibold text-zinc-400">
         <ShieldCheck className="h-4 w-4 text-indigo-400" />
-        에이전트 분석 (비즈니스/커뮤니케이션 관점)
+        {t("analysis.title")}
       </h3>
       <div className="relative overflow-hidden rounded-xl border border-white/10 bg-zinc-900/80 p-5 backdrop-blur-md">
         <ul className="space-y-4">

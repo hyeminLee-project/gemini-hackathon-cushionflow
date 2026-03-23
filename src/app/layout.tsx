@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { Analytics } from "@vercel/analytics/react";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
+import { LocaleProvider } from "@/components/LocaleProvider";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -27,7 +28,9 @@ export default function RootLayout({
   return (
     <html lang="ko" translate="no">
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-        <ErrorBoundary>{children}</ErrorBoundary>
+        <LocaleProvider>
+          <ErrorBoundary>{children}</ErrorBoundary>
+        </LocaleProvider>
         <Analytics />
       </body>
     </html>

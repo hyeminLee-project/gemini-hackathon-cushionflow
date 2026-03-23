@@ -2,8 +2,10 @@
 
 import { useState } from "react";
 import { CushionResponsePayload } from "@/lib/types";
+import { useLocale } from "@/hooks/useLocale";
 
 export function useCushionConvert() {
+  const { t } = useLocale();
   const [isLoading, setIsLoading] = useState(false);
   const [result, setResult] = useState<CushionResponsePayload | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -16,7 +18,7 @@ export function useCushionConvert() {
     imageMimeType: string | null;
   }) => {
     if (!params.message.trim() && !params.imageBase64) {
-      setError("전달할 메시지를 입력하거나 캡처한 이미지를 첨부해주세요.");
+      setError(t("error.emptyMessage"));
       return;
     }
 
@@ -38,10 +40,10 @@ export function useCushionConvert() {
       });
 
       const data = await response.json();
-      if (!response.ok) throw new Error(data.error || "오류가 발생했습니다.");
+      if (!response.ok) throw new Error(data.error || t("error.generic"));
       setResult(data);
     } catch (err: unknown) {
-      setError(err instanceof Error ? err.message : "오류가 발생했습니다.");
+      setError(err instanceof Error ? err.message : t("error.generic"));
     } finally {
       setIsLoading(false);
     }

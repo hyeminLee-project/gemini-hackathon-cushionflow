@@ -1,10 +1,12 @@
 "use client";
 
 import { useState, useRef } from "react";
+import { useLocale } from "@/hooks/useLocale";
 
 const MAX_SIZE_MB = 5;
 
 export function useImageUpload(onError: (msg: string) => void) {
+  const { t } = useLocale();
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [imageBase64, setImageBase64] = useState<string | null>(null);
   const [imageMimeType, setImageMimeType] = useState<string | null>(null);
@@ -18,12 +20,12 @@ export function useImageUpload(onError: (msg: string) => void) {
     if (!file) return;
 
     if (!file.type.startsWith("image/")) {
-      onError("이미지 파일만 업로드 가능합니다.");
+      onError(t("error.imageOnly"));
       return;
     }
 
     if (file.size > MAX_SIZE_MB * 1024 * 1024) {
-      onError(`이미지 크기는 ${MAX_SIZE_MB}MB 이하만 업로드 가능합니다.`);
+      onError(t("error.imageSize", { max: String(MAX_SIZE_MB) }));
       return;
     }
 
