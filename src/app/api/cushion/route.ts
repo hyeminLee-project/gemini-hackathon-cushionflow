@@ -72,20 +72,16 @@ export async function POST(req: Request) {
       );
     }
 
-    supabase
-      .from("cushion_history")
-      .insert({
-        original_message: originalMessage,
-        mbti,
-        context,
-        score: data.score,
-        suggestion: data.suggestion,
-        korean_translation: data.koreanTranslation ?? null,
-        insights: data.insights,
-      })
-      .then(({ error: dbError }) => {
-        if (dbError) console.error("Failed to save history:", dbError);
-      });
+    const { error: dbError } = await supabase.from("cushion_history").insert({
+      original_message: originalMessage,
+      mbti,
+      context,
+      score: data.score,
+      suggestion: data.suggestion,
+      korean_translation: data.koreanTranslation ?? null,
+      insights: data.insights,
+    });
+    if (dbError) console.error("Failed to save history:", dbError);
 
     return NextResponse.json(data);
   } catch (error) {
