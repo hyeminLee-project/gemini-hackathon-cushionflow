@@ -5,7 +5,7 @@ import { CushionResponsePayload } from "@/lib/types";
 import { useLocale } from "@/hooks/useLocale";
 
 export function useCushionConvert() {
-  const { t } = useLocale();
+  const { locale, t } = useLocale();
   const [isLoading, setIsLoading] = useState(false);
   const [result, setResult] = useState<CushionResponsePayload | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -36,6 +36,7 @@ export function useCushionConvert() {
           context: params.context,
           imageBase64: params.imageBase64,
           imageMimeType: params.imageMimeType,
+          locale,
         }),
       });
 
