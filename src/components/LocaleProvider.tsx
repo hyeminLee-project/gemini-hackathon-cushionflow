@@ -1,7 +1,7 @@
 "use client";
 
 import { createContext, useState, type ReactNode } from "react";
-import { type Locale, t as translate } from "@/lib/i18n";
+import { type Locale, LOCALE_LABELS, t as translate } from "@/lib/i18n";
 
 interface LocaleContextValue {
   locale: Locale;
@@ -15,7 +15,7 @@ export function LocaleProvider({ children }: { children: ReactNode }) {
   const [locale, setLocaleState] = useState<Locale>(() => {
     if (typeof window === "undefined") return "ko";
     const saved = localStorage.getItem("locale");
-    return saved === "ko" || saved === "en" ? saved : "ko";
+    return saved && saved in LOCALE_LABELS ? (saved as Locale) : "ko";
   });
 
   const setLocale = (l: Locale) => {
