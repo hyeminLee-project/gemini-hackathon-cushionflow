@@ -30,6 +30,7 @@ export const cushionRequestSchema = z
       .regex(/^image\//)
       .nullable()
       .optional(),
+    locale: z.enum(["ko", "en", "ja", "zh", "fr", "de"]).default("ko"),
   })
   .refine((data) => data.originalMessage.trim() || data.imageBase64, {
     message: "메시지 또는 이미지를 제공해주세요.",

@@ -33,9 +33,9 @@ export async function POST(req: Request) {
     if (!parsed.success) {
       return NextResponse.json({ error: parsed.error.issues[0].message }, { status: 400 });
     }
-    const { originalMessage, mbti, context, imageBase64, imageMimeType } = parsed.data;
+    const { originalMessage, mbti, context, imageBase64, imageMimeType, locale } = parsed.data;
 
-    const prompt = buildCushionPrompt({ originalMessage, mbti, context });
+    const prompt = buildCushionPrompt({ originalMessage, mbti, context, locale });
     const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
 
     const parts: Part[] = [{ text: prompt }];
