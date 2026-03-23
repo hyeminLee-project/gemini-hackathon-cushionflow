@@ -5,12 +5,14 @@ import { Sparkles, Copy, Check } from "lucide-react";
 import { CushionResponsePayload } from "@/lib/types";
 import { ScoreIndicator } from "./ScoreIndicator";
 import { AnalysisCard } from "./AnalysisCard";
+import { useLocale } from "@/hooks/useLocale";
 
 interface Props {
   result: CushionResponsePayload;
 }
 
 export function ResultCard({ result }: Props) {
+  const { t } = useLocale();
   const [isCopied, setIsCopied] = useState(false);
   const copyTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -43,7 +45,7 @@ export function ResultCard({ result }: Props) {
                 <div className="mb-3 flex items-center justify-between">
                   <h3 className="flex items-center gap-2 text-lg font-semibold text-indigo-300">
                     <Sparkles className="h-5 w-5" />
-                    쿠션어 제안
+                    {t("result.suggestion")}
                   </h3>
                   <button
                     onClick={() => handleCopy(result.suggestion)}
@@ -52,12 +54,12 @@ export function ResultCard({ result }: Props) {
                     {isCopied ? (
                       <>
                         <Check className="h-4 w-4 text-emerald-400" />
-                        <span className="text-emerald-400">복사됨</span>
+                        <span className="text-emerald-400">{t("result.copied")}</span>
                       </>
                     ) : (
                       <>
                         <Copy className="h-4 w-4" />
-                        복사
+                        {t("result.copy")}
                       </>
                     )}
                   </button>
@@ -71,7 +73,7 @@ export function ResultCard({ result }: Props) {
                 {result.koreanTranslation && (
                   <div className="mt-4 rounded-xl border border-indigo-500/20 bg-indigo-500/5 p-4">
                     <h4 className="mb-2 text-xs font-semibold tracking-wider text-indigo-400 uppercase">
-                      한국어 번역
+                      {t("result.translation")}
                     </h4>
                     <p className="text-sm leading-relaxed whitespace-pre-wrap text-zinc-300">
                       {result.koreanTranslation}

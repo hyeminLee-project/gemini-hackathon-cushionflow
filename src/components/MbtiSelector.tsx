@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { ChevronDown, CheckCircle2, ShieldCheck } from "lucide-react";
 import { MBTI_TYPES } from "@/lib/types";
+import { useLocale } from "@/hooks/useLocale";
 
 interface Props {
   mbti: string;
@@ -11,12 +12,11 @@ interface Props {
 
 export function MbtiSelector({ mbti, onMbtiChange }: Props) {
   const [isOpen, setIsOpen] = useState(false);
+  const { t } = useLocale();
 
   return (
     <div className="relative rounded-2xl border border-white/10 bg-zinc-900/50 p-6 backdrop-blur-md">
-      <label className="mb-3 block text-sm font-semibold text-zinc-400">
-        수신자 커뮤니케이션 스타일 (MBTI)
-      </label>
+      <label className="mb-3 block text-sm font-semibold text-zinc-400">{t("mbti.label")}</label>
       <div className="relative">
         <button
           onClick={() => setIsOpen(!isOpen)}
@@ -45,7 +45,7 @@ export function MbtiSelector({ mbti, onMbtiChange }: Props) {
         )}
       </div>
       <p className="mt-3 flex items-center gap-1 text-xs text-zinc-500">
-        <ShieldCheck className="h-3 w-3" /> {mbti} 스타일에 맞춘 비즈니스 언어 최적화
+        <ShieldCheck className="h-3 w-3" /> {t("mbti.footer", { mbti })}
       </p>
     </div>
   );

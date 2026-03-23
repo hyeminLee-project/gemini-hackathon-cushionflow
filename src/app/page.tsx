@@ -9,8 +9,10 @@ import { ContextSelector } from "@/components/ContextSelector";
 import { ResultCard } from "@/components/ResultCard";
 import { useImageUpload } from "@/hooks/useImageUpload";
 import { useCushionConvert } from "@/hooks/useCushionConvert";
+import { useLocale } from "@/hooks/useLocale";
 
 export default function Home() {
+  const { t } = useLocale();
   const [message, setMessage] = useState("");
   const [mbti, setMbti] = useState("INFP");
   const [context, setContext] = useState("휴가 중 보고");
@@ -38,14 +40,14 @@ export default function Home() {
       <main className="relative z-10 flex flex-col items-center px-4 pt-32">
         <section className="mb-12 text-center">
           <h1 className="mb-4 bg-gradient-to-b from-white to-zinc-400 bg-clip-text text-4xl font-extrabold tracking-tight text-transparent md:text-5xl">
-            사내 갈등 제로,
+            {t("hero.title.1")}
             <br />
-            완만한 커뮤니케이션의 시작
+            {t("hero.title.2")}
           </h1>
           <p className="text-lg font-medium text-zinc-400 md:text-xl">
-            긴박함과 배려 사이의 간극을 AI가 메워드립니다.
+            {t("hero.subtitle.1")}
             <br />
-            MBTI 기반 최적 쿠션어로 자동 변환합니다.
+            {t("hero.subtitle.2")}
           </p>
         </section>
 
@@ -84,12 +86,12 @@ export default function Home() {
               {isLoading ? (
                 <>
                   <Loader2 className="mr-3 h-5 w-5 animate-spin" />
-                  AI 분석 중...
+                  {t("button.loading")}
                 </>
               ) : (
                 <>
                   <Sparkles className="mr-3 h-5 w-5 group-hover:animate-pulse" />
-                  쿠션어로 변환하기
+                  {t("button.convert")}
                 </>
               )}
             </button>
