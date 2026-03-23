@@ -17,7 +17,7 @@ export default function Home() {
   const [mbti, setMbti] = useState("INFP");
   const [context, setContext] = useState("휴가 중 보고");
 
-  const { isLoading, result, error, setError, convert } = useCushionConvert();
+  const { isLoading, streamingText, result, error, setError, convert } = useCushionConvert();
   const image = useImageUpload(setError);
 
   const handleConvert = () =>
@@ -97,6 +97,20 @@ export default function Home() {
             </button>
           </div>
         </div>
+
+        {isLoading && streamingText && (
+          <div className="mt-12 w-full max-w-3xl">
+            <div className="rounded-2xl border border-white/10 bg-zinc-900/50 p-6 backdrop-blur-md">
+              <div className="mb-3 flex items-center gap-2 text-sm font-semibold text-indigo-300">
+                <Loader2 className="h-4 w-4 animate-spin" />
+                {t("button.loading")}
+              </div>
+              <p className="text-sm leading-relaxed whitespace-pre-wrap text-zinc-400">
+                {streamingText}
+              </p>
+            </div>
+          </div>
+        )}
 
         {result && <ResultCard result={result} />}
       </main>

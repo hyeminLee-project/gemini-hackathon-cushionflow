@@ -1,11 +1,11 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
 
-const mockGenerateContent = vi.fn();
+const mockGenerateContentStream = vi.fn();
 
 vi.mock("@google/generative-ai", () => ({
   GoogleGenerativeAI: class {
     getGenerativeModel() {
-      return { generateContent: mockGenerateContent };
+      return { generateContentStream: mockGenerateContentStream };
     }
   },
 }));
@@ -27,6 +27,34 @@ vi.mock("next/server", () => ({
   },
 }));
 
+async function readSSE(response: Response): Promise<string[]> {
+  const reader = response.body!.getReader();
+  const decoder = new TextDecoder();
+  const events: string[] = [];
+  let buffer = "";
+
+  while (true) {
+    const { done, value } = await reader.read();
+    if (done) break;
+    buffer += decoder.decode(value, { stream: true });
+    const lines = buffer.split("\n\n");
+    buffer = lines.pop() ?? "";
+    for (const line of lines) {
+      const data = line.replace(/^data: /, "");
+      if (data) events.push(data);
+    }
+  }
+  return events;
+}
+
+function createMockStream(text: string) {
+  return {
+    stream: (async function* () {
+      yield { text: () => text };
+    })(),
+  };
+}
+
 describe("POST /api/cushion", () => {
   const validBody = {
     originalMessage: "보고서 보내주세요",
@@ -43,7 +71,7 @@ describe("POST /api/cushion", () => {
 
   beforeEach(() => {
     vi.resetModules();
-    mockGenerateContent.mockReset();
+    mockGenerateContentStream.mockReset();
   });
 
   it("returns 500 when GEMINI_API_KEY is not set", async () => {
@@ -63,11 +91,9 @@ describe("POST /api/cushion", () => {
     process.env.GEMINI_API_KEY = originalKey;
   });
 
-  it("returns valid response on success", async () => {
+  it("streams valid response on success", async () => {
     process.env.GEMINI_API_KEY = "test-key";
-    mockGenerateContent.mockResolvedValue({
-      response: { text: () => JSON.stringify(validResponse) },
-    });
+    mockGenerateContentStream.mockResolvedValue(createMockStream(JSON.stringify(validResponse)));
 
     const { POST } = await import("./route");
     const req = new Request("http://localhost/api/cushion", {
@@ -75,18 +101,19 @@ describe("POST /api/cushion", () => {
       body: JSON.stringify(validBody),
     });
 
-    const res = (await POST(req)) as unknown as { body: typeof validResponse; status: number };
-    expect(res.status).toBe(200);
-    expect(res.body.score).toBe(85);
-    expect(res.body.suggestion).toBe("수정된 메시지");
-    expect(res.body.insights).toHaveLength(2);
+    const res = await POST(req);
+    expect(res.headers.get("Content-Type")).toBe("text/event-stream");
+
+    const events = await readSSE(res as Response);
+    const lastEvent = JSON.parse(events[events.length - 1]);
+    expect(lastEvent.done).toBe(true);
+    expect(lastEvent.result.score).toBe(85);
+    expect(lastEvent.result.suggestion).toBe("수정된 메시지");
   });
 
-  it("returns 502 when Gemini returns non-JSON", async () => {
+  it("streams error when Gemini returns non-JSON", async () => {
     process.env.GEMINI_API_KEY = "test-key";
-    mockGenerateContent.mockResolvedValue({
-      response: { text: () => "not json at all" },
-    });
+    mockGenerateContentStream.mockResolvedValue(createMockStream("not json at all"));
 
     const { POST } = await import("./route");
     const req = new Request("http://localhost/api/cushion", {
@@ -94,13 +121,15 @@ describe("POST /api/cushion", () => {
       body: JSON.stringify(validBody),
     });
 
-    const res = (await POST(req)) as unknown as { body: { error: string }; status: number };
-    expect(res.status).toBe(502);
+    const res = await POST(req);
+    const events = await readSSE(res as Response);
+    const lastEvent = JSON.parse(events[events.length - 1]);
+    expect(lastEvent.error).toBeDefined();
   });
 
-  it("returns 500 on Gemini API error", async () => {
+  it("streams error on Gemini API failure", async () => {
     process.env.GEMINI_API_KEY = "test-key";
-    mockGenerateContent.mockRejectedValue(new Error("API failure"));
+    mockGenerateContentStream.mockRejectedValue(new Error("API failure"));
 
     const { POST } = await import("./route");
     const req = new Request("http://localhost/api/cushion", {
@@ -108,15 +137,15 @@ describe("POST /api/cushion", () => {
       body: JSON.stringify(validBody),
     });
 
-    const res = (await POST(req)) as unknown as { body: { error: string }; status: number };
-    expect(res.status).toBe(500);
+    const res = await POST(req);
+    const events = await readSSE(res as Response);
+    const lastEvent = JSON.parse(events[events.length - 1]);
+    expect(lastEvent.error).toBeDefined();
   });
 
   it("includes image data when provided", async () => {
     process.env.GEMINI_API_KEY = "test-key";
-    mockGenerateContent.mockResolvedValue({
-      response: { text: () => JSON.stringify(validResponse) },
-    });
+    mockGenerateContentStream.mockResolvedValue(createMockStream(JSON.stringify(validResponse)));
 
     const { POST } = await import("./route");
     const req = new Request("http://localhost/api/cushion", {
@@ -130,7 +159,7 @@ describe("POST /api/cushion", () => {
 
     await POST(req);
 
-    const callArgs = mockGenerateContent.mock.calls[0][0];
+    const callArgs = mockGenerateContentStream.mock.calls[0][0];
     const parts = callArgs.contents[0].parts;
     expect(parts).toHaveLength(2);
     expect(parts[1].inlineData.mimeType).toBe("image/png");
