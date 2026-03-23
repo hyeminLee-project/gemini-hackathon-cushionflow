@@ -81,9 +81,9 @@ export async function POST(req: Request) {
       korean_translation: data.koreanTranslation ?? null,
       insights: data.insights,
     });
-    if (dbError) console.error("Failed to save history:", dbError);
+    if (dbError) console.error("Failed to save history:", JSON.stringify(dbError));
 
-    return NextResponse.json(data);
+    return NextResponse.json({ ...data, _debug: dbError ? dbError.message : "saved" });
   } catch (error) {
     console.error("Gemini API Error:", error);
     return NextResponse.json(
