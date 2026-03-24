@@ -13,13 +13,13 @@ Guidelines for Claude Code working in this repository.
 
 ## Key Files
 
-| Path                           | Role                                                       |
-| :----------------------------- | :--------------------------------------------------------- |
-| `src/app/page.tsx`             | Main UI component                                          |
-| `src/app/api/cushion/route.ts` | POST API endpoint                                          |
-| `src/lib/prompts.ts`           | Gemini system prompt builder                               |
-| `src/lib/types.ts`             | Shared TypeScript types                                    |
-| `.claude/commands/`            | Custom slash commands (`/git-commit`, `/git-pull-request`) |
+| Path                           | Role                                                                                                                       |
+| :----------------------------- | :------------------------------------------------------------------------------------------------------------------------- |
+| `src/app/page.tsx`             | Main UI component                                                                                                          |
+| `src/app/api/cushion/route.ts` | POST API endpoint                                                                                                          |
+| `src/lib/prompts.ts`           | Gemini system prompt builder                                                                                               |
+| `src/lib/types.ts`             | Shared TypeScript types                                                                                                    |
+| `.claude/commands/`            | Custom slash commands (`/git-commit`, `/git-pull-request`, `/verify`, `/gemini-prompt-test`, `/build-check`, `/env-check`) |
 
 ## Commands
 

@@ -21,9 +21,53 @@ Drafts and creates a Git commit message following the Conventional Commits + Git
 **File:** `.claude/commands/git-pull-request.md`
 **Allowed tools:** `Bash(git log *)`, `Bash(git diff *)`, `Bash(git branch *)`, `Bash(gh pr *)`
 
-Injects live branch/diff context at invocation time, then generates structured PR content ready for GitHub. Outputs a `PULL_REQUEST.md` or `gh pr create` command.
+Injects live branch/diff context at invocation time, then generates structured PR content ready for GitHub.
 
 **Triggers:** "PR 만들어줘", "write a PR", "summarize changes", "PR 내용 작성해줘"
+
+---
+
+### `/verify`
+
+**File:** `.claude/commands/verify.md`
+**Allowed tools:** `Bash(bunx tsc *)`, `Bash(bun run lint)`, `Bash(bun run test)`, `Bash(bun run format:check)`
+
+Runs all code quality checks in sequence: TypeScript typecheck → ESLint → Vitest tests → Prettier format check. Stops and reports on first failure.
+
+**Triggers:** "verify", "검증해줘", "check everything"
+
+---
+
+### `/gemini-prompt-test`
+
+**File:** `.claude/commands/gemini-prompt-test.md`
+**Allowed tools:** `Bash(curl *)`, `Read`
+
+Tests the CushionFlow API with a sample request to verify Gemini prompt behavior. Validates response structure (score, suggestion, insights).
+
+**Triggers:** "프롬프트 테스트", "test the prompt", "Gemini 테스트"
+
+---
+
+### `/build-check`
+
+**File:** `.claude/commands/build-check.md`
+**Allowed tools:** `Bash(bun run build)`, `Bash(GEMINI_API_KEY=* bun run build)`, `Read`
+
+Runs Next.js production build to catch compilation errors and verify API routes compile correctly.
+
+**Triggers:** "빌드 확인", "check build", "build test"
+
+---
+
+### `/env-check`
+
+**File:** `.claude/commands/env-check.md`
+**Allowed tools:** `Bash(grep *)`, `Read`
+
+Verifies all required environment variables (GEMINI_API_KEY, Supabase) are set. Compares `.env.local` against `.env.example`. Never prints actual values.
+
+**Triggers:** "환경변수 확인", "check env", "env 검증"
 
 ---
 
@@ -50,9 +94,12 @@ Modifies Claude Code `settings.json` to add permissions, hooks, or environment v
 ```
 feature branch
     └─ write code
+    └─ /env-check              ← verify env vars
+    └─ /verify                 ← typecheck + lint + test + format
+    └─ /build-check            ← production build test
+    └─ /gemini-prompt-test     ← test AI response (if prompt changed)
     └─ /simplify               ← clean up if needed
     └─ /git-commit             ← commit with convention
     └─ push branch
     └─ /git-pull-request       ← generate PR content
-    └─ gh pr create -F PULL_REQUEST.md
 ```
