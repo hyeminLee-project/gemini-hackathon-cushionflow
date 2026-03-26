@@ -4,7 +4,7 @@
 
 ### AI-Powered Workplace Communication Optimizer
 
-**사내 갈등 제로, 완벽한 커뮤니케이션의 시작**
+**Zero Workplace Conflict, Smooth Communication Starts Here**
 
 [![Next.js](https://img.shields.io/badge/Next.js-16-black?logo=next.js)](https://nextjs.org/)
 [![Gemini](https://img.shields.io/badge/Gemini-2.5_Flash-4285F4?logo=google)](https://ai.google.dev/)
@@ -16,7 +16,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 [![Release](https://img.shields.io/github/v/release/hyeminLee-project/gemini-hackathon-cushionflow)](https://github.com/hyeminLee-project/gemini-hackathon-cushionflow/releases)
 
-[🌐 Live Demo](https://gemini-hackathon-cushionflow-app.vercel.app) · [Features](#-features) · [Getting Started](#-getting-started) · [Architecture](#-architecture)
+[🌐 Live Demo](https://cushionflowai.com) · [Features](#-features) · [Getting Started](#-getting-started) · [Architecture](#-architecture)
 
 </div>
 
@@ -24,28 +24,28 @@
 
 ## 💡 Why CushionFlow?
 
-> "팀장님이 휴가 중인데… 긴급 보고를 해야 합니다."
+> *"My manager is on vacation… but I need to send an urgent report."*
 >
-> "상사의 실수를 지적해야 하는데, 어떻게 말해야 할까요?"
+> *"I have to point out my boss's mistake — how do I say it?"*
 
-직장에서 **말하기 어려운 순간**은 누구에게나 찾아옵니다. 잘못된 한마디가 관계를 망칠 수 있고, 너무 돌려 말하면 핵심이 전달되지 않습니다.
+Every workplace has moments where **one wrong word can damage a relationship**. Say it too bluntly and you risk conflict. Say it too softly and your point gets lost.
 
-**CushionFlow**는 수신자의 커뮤니케이션 스타일(MBTI)과 상황 맥락을 분석하여, 관계를 지키면서도 핵심을 전달하는 **최적의 쿠션어(cushion language)**를 제안합니다.
+**CushionFlow** analyzes the recipient's communication style (MBTI) and situational context, then suggests the optimal **cushion language** — delivering your message clearly while preserving the relationship.
 
-Every workplace has moments where one wrong word can damage a relationship. CushionFlow uses Google Gemini to transform high-stakes messages into optimized communication — tailored to the recipient's personality and context.
+Built with Google Gemini 2.5 Flash for intelligent, context-aware message transformation.
 
 ---
 
 ## ✨ Features
 
-| Feature                        | Description                                                     |
-| :----------------------------- | :-------------------------------------------------------------- |
-| 🧠 **MBTI-Based Optimization** | 16가지 MBTI 유형별 커뮤니케이션 스타일에 맞춘 메시지 변환       |
-| 🎯 **Context-Aware Analysis**  | 휴가 중 보고, 상사 실수 지적, 긴급 요청 등 6가지 상황 맥락 지원 |
-| 📊 **Acceptance Score**        | 원본 vs 변환 메시지의 수용도 점수(0–100) 비교                   |
-| 🔍 **Multi-Agent Insights**    | 비즈니스·커뮤니케이션 관점의 에이전트 분석 리포트               |
-| 🖼️ **Multimodal Input**        | 대화 캡처 이미지 첨부로 맥락 파악 강화                          |
-| 📋 **One-Click Copy**          | 제안된 메시지 원클릭 복사                                       |
+| Feature | Description |
+| :--- | :--- |
+| 🧠 **MBTI-Based Optimization** | Tailors messages for all 16 MBTI personality types |
+| 🎯 **Context-Aware Analysis** | Supports 6 situational contexts: vacation report, boss's mistake, urgent request, rejection, apology, and favor |
+| 📊 **Acceptance Score** | Compares acceptance scores (0–100) between original and optimized messages |
+| 🔍 **Multi-Agent Insights** | Business & communication expert analysis reports |
+| 🖼️ **Multimodal Input** | Attach chat screenshots for deeper context understanding |
+| 📋 **One-Click Copy** | Copy the suggested message with one click |
 
 ---
 
@@ -65,32 +65,32 @@ Every workplace has moments where one wrong word can damage a relationship. Cush
 
 ```
 ┌─────────────────────────────────────────────┐
-│                  Client                     │
-│          Next.js App Router (React 19)      │
-│                                             │
-│  ┌─────────┐  ┌──────────┐  ┌───────────┐  │
-│  │ Message  │  │   MBTI   │  │  Context  │  │
-│  │  Input   │  │ Selector │  │  Picker   │  │
-│  └────┬─────┘  └────┬─────┘  └─────┬─────┘  │
+│                   Client                     │
+│          Next.js App Router (React 19)       │
+│                                              │
+│  ┌─────────┐ ┌──────────┐ ┌───────────┐     │
+│  │ Message  │ │   MBTI   │ │  Context  │     │
+│  │  Input   │ │ Selector │ │  Picker   │     │
+│  └────┬─────┘ └────┬─────┘ └─────┬─────┘    │
 │       └──────────────┼──────────────┘        │
 │                      ▼                       │
-│            POST /api/cushion                 │
+│             POST /api/cushion                │
 ├─────────────────────────────────────────────┤
-│                  Server                     │
-│                                             │
-│  ┌──────────────────────────────────────┐   │
-│  │         API Route Handler            │   │
-│  │  • Input validation                  │   │
-│  │  • System prompt builder             │   │
-│  │  • Response parsing                  │   │
-│  └──────────────┬───────────────────────┘   │
-│                 │                            │
-│                 ▼                            │
-│  ┌──────────────────────────────────────┐   │
-│  │      Google Gemini 2.5 Flash         │   │
-│  │  • MBTI-aware prompt engineering     │   │
-│  │  • Multimodal analysis (text+image)  │   │
-│  └──────────────────────────────────────┘   │
+│                   Server                     │
+│                                              │
+│  ┌──────────────────────────────────────┐    │
+│  │         API Route Handler            │    │
+│  │  • Input validation                  │    │
+│  │  • System prompt builder             │    │
+│  │  • Response parsing                  │    │
+│  └──────────────┬───────────────────────┘    │
+│                 │                             │
+│                 ▼                             │
+│  ┌──────────────────────────────────────┐    │
+│  │      Google Gemini 2.5 Flash         │    │
+│  │  • MBTI-aware prompt engineering     │    │
+│  │  • Multimodal analysis (text+image)  │    │
+│  └──────────────────────────────────────┘    │
 └─────────────────────────────────────────────┘
 ```
 
@@ -133,33 +133,33 @@ make docker-up
 
 ## 📋 Commands
 
-| Command          | Description              |
-| :--------------- | :----------------------- |
-| `make dev`       | Start development server |
-| `make build`     | Production build         |
-| `make lint`      | Run ESLint               |
-| `make typecheck` | TypeScript type check    |
-| `make format`    | Prettier formatting      |
-| `make docker-up` | Run with Docker          |
+| Command | Description |
+| :--- | :--- |
+| `make dev` | Start development server |
+| `make build` | Production build |
+| `make lint` | Run ESLint |
+| `make typecheck` | TypeScript type check |
+| `make format` | Prettier formatting |
+| `make docker-up` | Run with Docker |
 
 ---
 
 ## 🛠️ Tech Stack
 
-| Category      | Technology                 |
-| :------------ | :------------------------- |
-| **Framework** | Next.js 16 (App Router)    |
-| **Language**  | TypeScript 5 (strict mode) |
-| **UI**        | React 19 + Tailwind CSS 4  |
-| **AI**        | Google Gemini 2.5 Flash    |
-| **Icons**     | Lucide React               |
-| **Runtime**   | Bun                        |
+| Category | Technology |
+| :--- | :--- |
+| **Framework** | Next.js 16 (App Router) |
+| **Language** | TypeScript 5 (strict mode) |
+| **UI** | React 19 + Tailwind CSS 4 |
+| **AI** | Google Gemini 2.5 Flash |
+| **Icons** | Lucide React |
+| **Runtime** | Bun |
 
 ---
 
 ## 🤝 Contributing
 
-Contributions are welcome! Feel free to open an issue or submit a pull request.
+Contributions are welcome! Check out our [good first issues](https://github.com/hyeminLee-project/gemini-hackathon-cushionflow/labels/good%20first%20issue) to get started.
 
 1. Fork the repository
 2. Create your feature branch (`git checkout -b feat/amazing-feature`)
