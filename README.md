@@ -24,9 +24,9 @@
 
 ## 💡 Why CushionFlow?
 
-> *"My manager is on vacation… but I need to send an urgent report."*
+> _"My manager is on vacation… but I need to send an urgent report."_
 >
-> *"I have to point out my boss's mistake — how do I say it?"*
+> _"I have to point out my boss's mistake — how do I say it?"_
 
 Every workplace has moments where **one wrong word can damage a relationship**. Say it too bluntly and you risk conflict. Say it too softly and your point gets lost.
 
@@ -38,14 +38,14 @@ Built with Google Gemini 2.5 Flash for intelligent, context-aware message transf
 
 ## ✨ Features
 
-| Feature | Description |
-| :--- | :--- |
-| 🧠 **MBTI-Based Optimization** | Tailors messages for all 16 MBTI personality types |
-| 🎯 **Context-Aware Analysis** | Supports 6 situational contexts: vacation report, boss's mistake, urgent request, rejection, apology, and favor |
-| 📊 **Acceptance Score** | Compares acceptance scores (0–100) between original and optimized messages |
-| 🔍 **Multi-Agent Insights** | Business & communication expert analysis reports |
-| 🖼️ **Multimodal Input** | Attach chat screenshots for deeper context understanding |
-| 📋 **One-Click Copy** | Copy the suggested message with one click |
+| Feature                        | Description                                                                                                     |
+| :----------------------------- | :-------------------------------------------------------------------------------------------------------------- |
+| 🧠 **MBTI-Based Optimization** | Tailors messages for all 16 MBTI personality types                                                              |
+| 🎯 **Context-Aware Analysis**  | Supports 6 situational contexts: vacation report, boss's mistake, urgent request, rejection, apology, and favor |
+| 📊 **Acceptance Score**        | Compares acceptance scores (0–100) between original and optimized messages                                      |
+| 🔍 **Multi-Agent Insights**    | Business & communication expert analysis reports                                                                |
+| 🖼️ **Multimodal Input**        | Attach chat screenshots for deeper context understanding                                                        |
+| 📋 **One-Click Copy**          | Copy the suggested message with one click                                                                       |
 
 ---
 
@@ -133,27 +133,27 @@ make docker-up
 
 ## 📋 Commands
 
-| Command | Description |
-| :--- | :--- |
-| `make dev` | Start development server |
-| `make build` | Production build |
-| `make lint` | Run ESLint |
-| `make typecheck` | TypeScript type check |
-| `make format` | Prettier formatting |
-| `make docker-up` | Run with Docker |
+| Command          | Description              |
+| :--------------- | :----------------------- |
+| `make dev`       | Start development server |
+| `make build`     | Production build         |
+| `make lint`      | Run ESLint               |
+| `make typecheck` | TypeScript type check    |
+| `make format`    | Prettier formatting      |
+| `make docker-up` | Run with Docker          |
 
 ---
 
 ## 🛠️ Tech Stack
 
-| Category | Technology |
-| :--- | :--- |
-| **Framework** | Next.js 16 (App Router) |
-| **Language** | TypeScript 5 (strict mode) |
-| **UI** | React 19 + Tailwind CSS 4 |
-| **AI** | Google Gemini 2.5 Flash |
-| **Icons** | Lucide React |
-| **Runtime** | Bun |
+| Category      | Technology                 |
+| :------------ | :------------------------- |
+| **Framework** | Next.js 16 (App Router)    |
+| **Language**  | TypeScript 5 (strict mode) |
+| **UI**        | React 19 + Tailwind CSS 4  |
+| **AI**        | Google Gemini 2.5 Flash    |
+| **Icons**     | Lucide React               |
+| **Runtime**   | Bun                        |
 
 ---
 
