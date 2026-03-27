@@ -1,6 +1,6 @@
 import { GoogleGenerativeAI, Part } from "@google/generative-ai";
 import { NextResponse } from "next/server";
-import { cushionRequestSchema, CushionResponsePayload } from "@/lib/types";
+import { cushionRequestSchema, cushionResponseSchema } from "@/lib/types";
 import { buildCushionPrompt } from "@/lib/prompts";
 import { createRateLimit } from "@/lib/rate-limit";
 import { supabase } from "@/lib/supabase";
@@ -61,16 +61,22 @@ export async function POST(req: Request) {
     const text = result.response.text();
     const jsonString = text.replace(/```json\n?|```/g, "").trim();
 
-    let data: CushionResponsePayload;
-    try {
-      data = JSON.parse(jsonString);
-    } catch {
+    const responseParsed = cushionResponseSchema.safeParse((() => {
+      try {
+        return JSON.parse(jsonString);
+      } catch {
+        return null;
+      }
+    })());
+
+    if (!responseParsed.success) {
       console.error("Failed to parse Gemini response:", jsonString);
       return NextResponse.json(
         { error: "AI 응답을 파싱하는 데 실패했습니다. 잠시 후 다시 시도해주세요." },
         { status: 502 }
       );
     }
+    const data = responseParsed.data;
 
     const { error: dbError } = await supabase.from("cushion_history").insert({
       original_message: originalMessage,

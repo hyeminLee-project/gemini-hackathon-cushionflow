@@ -24,7 +24,7 @@ export const cushionRequestSchema = z
     originalMessage: z.string().max(2000).default(""),
     mbti: z.enum(MBTI_TYPES),
     context: z.string().min(1).max(100),
-    imageBase64: z.string().max(10_000_000).nullable().optional(),
+    imageBase64: z.string().max(7_000_000).nullable().optional(),
     imageMimeType: z
       .string()
       .regex(/^image\//)
@@ -38,9 +38,11 @@ export const cushionRequestSchema = z
 
 export type CushionRequestPayload = z.infer<typeof cushionRequestSchema>;
 
-export interface CushionResponsePayload {
-  score: number;
-  suggestion: string;
-  koreanTranslation?: string | null;
-  insights: string[];
-}
+export const cushionResponseSchema = z.object({
+  score: z.number().min(0).max(100),
+  suggestion: z.string().min(1),
+  koreanTranslation: z.string().nullable().optional(),
+  insights: z.array(z.string()),
+});
+
+export type CushionResponsePayload = z.infer<typeof cushionResponseSchema>;
