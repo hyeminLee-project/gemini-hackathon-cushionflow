@@ -61,13 +61,15 @@ export async function POST(req: Request) {
     const text = result.response.text();
     const jsonString = text.replace(/```json\n?|```/g, "").trim();
 
-    const responseParsed = cushionResponseSchema.safeParse((() => {
-      try {
-        return JSON.parse(jsonString);
-      } catch {
-        return null;
-      }
-    })());
+    const responseParsed = cushionResponseSchema.safeParse(
+      (() => {
+        try {
+          return JSON.parse(jsonString);
+        } catch {
+          return null;
+        }
+      })()
+    );
 
     if (!responseParsed.success) {
       console.error("Failed to parse Gemini response:", jsonString);
