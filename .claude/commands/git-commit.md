@@ -1,87 +1,70 @@
 ---
 name: git-commit
 description: >
-  Stages changes and writes a Git commit message following Conventional Commits + Gitmoji.
+  Stages changes and writes a Git commit message following the project's commit convention.
   Use when committing code, when the user says "commit this", "커밋해줘", "write a commit message",
   or after completing a unit of work.
 allowed-tools: Bash(git diff --staged), Bash(git add *), Bash(git commit *)
 ---
 
-# Git Commit Message Convention
+# Commit Skill
 
-Utilize this skill when writing Git commit messages to apply Conventional Commits rules and Gitmoji.
+Write a commit message that follows CushionFlow's convention: Gitmoji + Conventional Commits.
 
-## When to Use This Skill
+## Steps
 
-Activate this skill in the following situations:
+### 1. Review staged changes
 
-- When committing code changes
-- When a commit message format is required
-- When you need to maintain a consistent commit history
-
-## How to Write Commit Messages
-
-### Step 1: Check Staged Changes
-
-Check the staged changes using the `git diff --staged` command.
-
-### Step 2: Determine Commit Type
-
-Select the appropriate type and Gitmoji for the changes:
-
-| Gitmoji |         Code         | Type       | Description                             |
-| :-----: | :------------------: | :--------- | :-------------------------------------- |
-|   ✨    |     `:sparkles:`     | `feat`     | Add a new feature                       |
-|   🐛    |       `:bug:`        | `fix`      | Fix a bug                               |
-|   📝    |       `:memo:`       | `docs`     | Add or update documentation             |
-|   🎨    |       `:art:`        | `style`    | Code formatting, structural improvement |
-|   ♻️    |     `:recycle:`      | `refactor` | Code refactoring                        |
-|   ✅    | `:white_check_mark:` | `test`     | Add or update test code                 |
-|   🔧    |      `:wrench:`      | `chore`    | Update build, config files, etc.        |
-|   🚀    |      `:rocket:`      | `perf`     | Improve performance                     |
-|   🔖    |     `:bookmark:`     | `release`  | Version release                         |
-
-> Always check this: [gitmoji | An emoji guide for your commit messages](https://gitmoji.dev/)
-
-### Step 3: Compose the Message
-
-Compose the commit message in the following format:
-
-```text
-<gitmoji> <type>(<scope>): <subject>
-
-<body>
-
-<footer>
+```bash
+git diff --staged
 ```
 
-**Components:**
+If nothing is staged, check `git status` and suggest files to stage.
 
-- **Gitmoji (Required)**: An emoji that visually represents the purpose of the commit.
-- **Type (Required)**: The category of change (feat, fix, docs, style, refactor, perf, test, chore, release).
-- **Scope (Optional)**: The name of the affected module (e.g., `(api)`, `(chat)`, `(auth)`).
-- **Subject (Required)**: A concise description of the changes.
-  - Use the imperative present tense ("add", not "added").
-  - Use a lowercase first letter.
-  - No period at the end.
-  - Keep it under 50 characters.
-- **Body (Optional)**: Explanation of the motivation for the change and how it differs from previous behavior.
-- **Footer (Optional)**: Issue tracking (`Closes #123`) or recording Breaking Changes.
+### 2. Pick the right type and emoji
 
-### Step 4: Example
+| Emoji | Type       | When to use        |
+| :---: | :--------- | :----------------- |
+|  ✨   | `feat`     | New feature        |
+|  🐛   | `fix`      | Bug fix            |
+|  📝   | `docs`     | Documentation      |
+|  🎨   | `style`    | Formatting only    |
+|  ♻️   | `refactor` | Restructuring code |
+|  ✅   | `test`     | Tests              |
+|  🔧   | `chore`    | Config, tooling    |
+|  🚀   | `perf`     | Performance        |
+|  🌐   | `i18n`     | Translations       |
+|  🔒   | `security` | Security hardening |
+
+Full reference: [gitmoji.dev](https://gitmoji.dev/)
+
+### 3. Write the message
+
+Format:
 
 ```text
-✨ feat(auth): add password reset via email
-
-- Implemented a new endpoint `/auth/request-password-reset` that sends a secure, time-limited token to the user's email.
-- Added a corresponding service to handle token generation and email dispatch.
-
-Closes #78
+<emoji> <type>(<scope>): <description>
 ```
 
-## Guidelines
+Rules:
 
-- **Language**: Write commit messages in English.
-- **Gitmoji Reference**: [https://gitmoji.dev/](https://gitmoji.dev/)
-- **Clarity**: The Subject explains "what," and the Body explains "why."
-- **Breaking Changes**: Record them in the Footer with the `BREAKING CHANGE:` prefix.
+- English only
+- Imperative mood ("add" not "added")
+- Lowercase first letter
+- No period at the end
+- Under 50 characters for the subject
+- Optional body for "why" context
+
+### 4. Commit
+
+```bash
+git commit -m "<message>"
+```
+
+## Examples
+
+```text
+✨ feat(api): add rate limiting to cushion endpoint
+🐛 fix(db): await Supabase insert before response
+♻️ refactor(hooks): extract image upload logic
+```
