@@ -46,7 +46,7 @@ export default function Home() {
 
       <main className="relative z-10 flex flex-col items-center px-4 pt-32">
         <section className="mb-12 text-center">
-          <h1 className="mb-4 bg-gradient-to-b from-white to-zinc-400 bg-clip-text text-4xl font-extrabold tracking-tight text-transparent md:text-5xl">
+          <h1 className="mb-4 bg-linear-to-b from-white to-zinc-400 bg-clip-text text-4xl font-extrabold tracking-tight text-transparent md:text-5xl">
             {t("hero.title.1")}
             <br />
             {t("hero.title.2")}

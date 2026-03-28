@@ -37,7 +37,7 @@ export function ScoreIndicator({ score }: Props) {
             className={`${colorClass} transition-all duration-1000 ease-out`}
           />
         </svg>
-        <span className="absolute bg-gradient-to-br from-white to-zinc-400 bg-clip-text text-2xl font-bold text-transparent">
+        <span className="absolute bg-linear-to-br from-white to-zinc-400 bg-clip-text text-2xl font-bold text-transparent">
           {score}
         </span>
       </div>
