@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Sparkles, Loader2, AlertCircle } from "lucide-react";
 import { Header } from "@/components/Header";
 import { MessageInput } from "@/components/MessageInput";
@@ -19,6 +19,13 @@ export default function Home() {
 
   const { isLoading, result, error, setError, convert } = useCushionConvert();
   const image = useImageUpload(setError);
+  const resultRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (result && resultRef.current) {
+      resultRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  }, [result]);
 
   const handleConvert = () =>
     convert({
@@ -98,7 +105,7 @@ export default function Home() {
           </div>
         </div>
 
-        {result && <ResultCard result={result} />}
+        <div ref={resultRef}>{result && <ResultCard result={result} />}</div>
       </main>
     </div>
   );
