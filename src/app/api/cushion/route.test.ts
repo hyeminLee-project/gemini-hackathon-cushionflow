@@ -2,11 +2,9 @@ import { describe, it, expect, vi, beforeEach } from "vitest";
 
 const mockGenerateContent = vi.fn();
 
-vi.mock("@google/generative-ai", () => ({
-  GoogleGenerativeAI: class {
-    getGenerativeModel() {
-      return { generateContent: mockGenerateContent };
-    }
+vi.mock("@google/genai", () => ({
+  GoogleGenAI: class {
+    models = { generateContent: mockGenerateContent };
   },
 }));
 
@@ -66,7 +64,7 @@ describe("POST /api/cushion", () => {
   it("returns valid response on success", async () => {
     process.env.GEMINI_API_KEY = "test-key";
     mockGenerateContent.mockResolvedValue({
-      response: { text: () => JSON.stringify(validResponse) },
+      text: JSON.stringify(validResponse),
     });
 
     const { POST } = await import("./route");
@@ -85,7 +83,7 @@ describe("POST /api/cushion", () => {
   it("returns 502 when Gemini returns non-JSON", async () => {
     process.env.GEMINI_API_KEY = "test-key";
     mockGenerateContent.mockResolvedValue({
-      response: { text: () => "not json at all" },
+      text: "not json at all",
     });
 
     const { POST } = await import("./route");
@@ -115,7 +113,7 @@ describe("POST /api/cushion", () => {
   it("includes image data when provided", async () => {
     process.env.GEMINI_API_KEY = "test-key";
     mockGenerateContent.mockResolvedValue({
-      response: { text: () => JSON.stringify(validResponse) },
+      text: JSON.stringify(validResponse),
     });
 
     const { POST } = await import("./route");
@@ -131,8 +129,8 @@ describe("POST /api/cushion", () => {
     await POST(req);
 
     const callArgs = mockGenerateContent.mock.calls[0][0];
-    const parts = callArgs.contents[0].parts;
-    expect(parts).toHaveLength(2);
-    expect(parts[1].inlineData.mimeType).toBe("image/png");
+    const contents = callArgs.contents;
+    expect(contents).toHaveLength(2);
+    expect(contents[1].inlineData.mimeType).toBe("image/png");
   });
 });

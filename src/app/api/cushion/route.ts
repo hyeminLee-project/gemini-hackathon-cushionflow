@@ -1,11 +1,10 @@
-import { GoogleGenerativeAI, Part } from "@google/generative-ai";
+import { GoogleGenAI } from "@google/genai";
 import { NextResponse } from "next/server";
 import { cushionRequestSchema, cushionResponseSchema } from "@/lib/types";
 import { buildCushionPrompt } from "@/lib/prompts";
 import { createRateLimit } from "@/lib/rate-limit";
 import { supabase } from "@/lib/supabase";
 
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || "");
 const TIMEOUT_MS = 30_000;
 const limiter = createRateLimit({ windowMs: 60_000, maxRequests: 10 });
 
@@ -36,29 +35,26 @@ export async function POST(req: Request) {
     const { originalMessage, mbti, context, imageBase64, imageMimeType, locale } = parsed.data;
 
     const prompt = buildCushionPrompt({ originalMessage, mbti, context, locale });
-    const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
+    const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
 
-    const parts: Part[] = [{ text: prompt }];
-
-    if (imageBase64 && imageMimeType) {
-      parts.push({
-        inlineData: {
-          data: imageBase64,
-          mimeType: imageMimeType,
-        },
-      });
-    }
+    const contents =
+      imageBase64 && imageMimeType
+        ? [{ text: prompt }, { inlineData: { data: imageBase64, mimeType: imageMimeType } }]
+        : prompt;
 
     const timeoutPromise = new Promise<never>((_, reject) =>
       setTimeout(() => reject(new Error("Gemini API request timed out")), TIMEOUT_MS)
     );
 
     const result = await Promise.race([
-      model.generateContent({ contents: [{ role: "user", parts }] }),
+      ai.models.generateContent({
+        model: "gemini-2.5-flash",
+        contents,
+      }),
       timeoutPromise,
     ]);
 
-    const text = result.response.text();
+    const text = result.text ?? "";
     const jsonString = text.replace(/```json\n?|```/g, "").trim();
 
     const responseParsed = cushionResponseSchema.safeParse(
