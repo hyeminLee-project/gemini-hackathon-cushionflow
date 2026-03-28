@@ -93,6 +93,27 @@ Follow [`markdown/BRANCH_NAMING.md`](markdown/BRANCH_NAMING.md).
 - Never commit directly to `main`.
 - Always create a branch → push → PR → merge. No exceptions.
 
+### Releases
+
+Follow [Semantic Versioning](https://semver.org/): `vMAJOR.MINOR.PATCH`
+
+- **MAJOR** (v2.0.0): Breaking changes, major architecture rewrite
+- **MINOR** (v1.1.0): New features, backward compatible
+- **PATCH** (v1.1.1): Bug fixes, minor improvements
+
+Release process:
+
+1. All PRs merged to `main`
+2. `git tag -a vX.Y.Z -m "message"`
+3. `git push origin vX.Y.Z`
+4. `gh release create vX.Y.Z` with changelog
+
+When to release:
+
+- New feature complete → MINOR bump
+- Bug fix deployed → PATCH bump
+- Do NOT create a release for docs-only or chore changes
+
 ### Code Style
 
 - TypeScript strict mode — avoid `any`.
