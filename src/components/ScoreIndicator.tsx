@@ -12,7 +12,7 @@ export function ScoreIndicator({ score }: Props) {
     score > 80 ? "text-emerald-500" : score > 49 ? "text-amber-500" : "text-rose-500";
 
   return (
-    <div className="flex w-48 flex-shrink-0 flex-col items-center justify-center rounded-2xl border border-white/5 bg-zinc-900 p-6 text-center">
+    <div className="flex w-48 shrink-0 flex-col items-center justify-center rounded-2xl border border-white/5 bg-zinc-900 p-6 text-center">
       <span className="mb-2 text-sm font-medium text-zinc-400">{t("score.title")}</span>
       <div className="relative mb-4 flex items-center justify-center">
         <svg className="h-24 w-24 -rotate-90 transform">
