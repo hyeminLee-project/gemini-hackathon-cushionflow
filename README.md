@@ -179,6 +179,6 @@ This project is open source and available under the [MIT License](LICENSE).
 
 **If CushionFlow helps you communicate better, give it a ⭐!**
 
-Made with ❤️ for the [Google Gemini API Developer Competition](https://ai.google.dev/competition)
+Originally prototyped at [Google Gemini Seoul Hackathon 2026](https://ai.google.dev/competition) 🇰🇷
 
 </div>
