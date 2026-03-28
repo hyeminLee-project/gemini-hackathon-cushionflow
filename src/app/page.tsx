@@ -79,7 +79,7 @@ export default function Home() {
 
           {error && (
             <div className="flex items-center gap-3 rounded-xl border border-red-500/20 bg-red-500/10 p-4 text-red-400">
-              <AlertCircle className="h-5 w-5 flex-shrink-0" />
+              <AlertCircle className="h-5 w-5 shrink-0" />
               <p className="text-sm font-medium">{error}</p>
             </div>
           )}

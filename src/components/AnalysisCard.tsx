@@ -21,7 +21,7 @@ export function AnalysisCard({ insights }: Props) {
         <ul className="space-y-4">
           {data.map((item, idx) => (
             <li key={idx} className="flex items-start gap-3">
-              <span className="mt-0.5 flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-full bg-indigo-500/10 text-xs font-bold text-indigo-400">
+              <span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-indigo-500/10 text-xs font-bold text-indigo-400">
                 {idx + 1}
               </span>
               <p className="flex-1 text-sm leading-relaxed whitespace-pre-wrap text-zinc-300">
