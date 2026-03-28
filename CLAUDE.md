@@ -76,12 +76,22 @@ Follow [`markdown/GIT_COMMIT.md`](markdown/GIT_COMMIT.md).
 - Format: `<gitmoji> <type>(<scope>): <subject>`
 - Language: English
 
+### Commit Quality Rules
+
+- **Never push debug commits to main.** Debug code must be removed in the same PR.
+- **Fix formatting in the same PR** that introduced the change. Don't create separate "fix formatting" PRs.
+- **Run `bun run format` before every commit.** Format issues should never reach CI.
+- **Use Squash and merge consistently.** Keep main history clean with one commit per PR.
+- **Never edit files directly on GitHub web.** Always use branch → PR workflow to maintain commit conventions.
+- **Every commit on main must follow the convention.** No "Update README.md" style messages.
+
 ### Branches
 
 Follow [`markdown/BRANCH_NAMING.md`](markdown/BRANCH_NAMING.md).
 
 - Format: `<type>/<short-description>`
 - Never commit directly to `main`.
+- Always create a branch → push → PR → merge. No exceptions.
 
 ### Code Style
 
