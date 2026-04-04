@@ -7,4 +7,4 @@ if (!supabaseUrl || !supabaseKey) {
   console.warn("Supabase environment variables are not set. DB operations will be skipped.");
 }
 
-export const supabase = createClient(supabaseUrl, supabaseKey);
+export const supabase = supabaseUrl && supabaseKey ? createClient(supabaseUrl, supabaseKey) : null;
