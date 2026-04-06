@@ -17,6 +17,7 @@ export const MBTI_TYPES = [
   "ISFP",
   "ESTP",
   "ESFP",
+  "UNKNOWN",
 ] as const;
 
 export const cushionRequestSchema = z
