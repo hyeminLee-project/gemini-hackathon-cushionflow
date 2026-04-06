@@ -3,6 +3,7 @@
 import { useState, useRef, useEffect } from "react";
 import { Sparkles, Loader2, AlertCircle } from "lucide-react";
 import { Header } from "@/components/Header";
+import { DemoCard } from "@/components/DemoCard";
 import { MessageInput } from "@/components/MessageInput";
 import { MbtiSelector } from "@/components/MbtiSelector";
 import { ContextSelector } from "@/components/ContextSelector";
@@ -36,6 +37,22 @@ export default function Home() {
       imageMimeType: image.imageMimeType,
     });
 
+  const handleDemo = () => {
+    const demoMessage = t("demo.before");
+    const demoMbti = "ISTJ";
+    const demoContext = "상사 실수 지적";
+    setMessage(demoMessage);
+    setMbti(demoMbti);
+    setContext(demoContext);
+    convert({
+      message: demoMessage,
+      mbti: demoMbti,
+      context: demoContext,
+      imageBase64: null,
+      imageMimeType: null,
+    });
+  };
+
   return (
     <div className="min-h-screen bg-[#0A0A0B] pb-24 font-sans text-zinc-50 selection:bg-indigo-500/30">
       <div className="pointer-events-none fixed inset-0 overflow-hidden">
@@ -58,7 +75,9 @@ export default function Home() {
           </p>
         </section>
 
-        <div className="w-full max-w-3xl space-y-4">
+        <DemoCard onTryDemo={handleDemo} />
+
+        <div className="mt-8 w-full max-w-3xl space-y-4">
           <MessageInput
             message={message}
             onMessageChange={setMessage}

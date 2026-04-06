@@ -19,6 +19,11 @@ export function buildCushionPrompt({
     ? `\n    - 원본 메시지 텍스트: "${originalMessage}"`
     : `\n    - 원본 메시지 텍스트: (제공되지 않음. 첨부된 이미지 내용을 원본 메시지로 간주하고 분석해주세요.)`;
 
+  const mbtiLine =
+    mbti === "UNKNOWN"
+      ? "- 수신자 업무 성향 (MBTI): 알 수 없음 (일반적인 비즈니스 예절 기준으로 작성)"
+      : `- 수신자 업무 성향 (MBTI): ${mbti}`;
+
   const insightsLang = LOCALE_NAMES[locale] ?? "Korean";
   const needsTranslation = locale !== "ko";
 
@@ -27,7 +32,7 @@ export function buildCushionPrompt({
     사용자가 작성한 메시지(또는 첨부된 스크린샷 이미지)를 분석하고, 수신자의 업무 성향(MBTI)과 상황 맥락을 고려하여 사내 갈등을 예방하는 건설적이고 정중한 '쿠션어'로 변환해 주세요.
 
     [입력 데이터]${messagePromptText}
-    - 수신자 업무 성향 (MBTI): ${mbti}
+    ${mbtiLine}
     - 상황 맥락: ${context}
 
     [요청 사항]
