@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import { Analytics } from "@vercel/analytics/react";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { LocaleProvider } from "@/components/LocaleProvider";
+import { TooltipProvider } from "@/components/ui/tooltip";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -26,11 +27,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ko" translate="no">
+    <html lang="ko" translate="no" className="dark">
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-        <LocaleProvider>
-          <ErrorBoundary>{children}</ErrorBoundary>
-        </LocaleProvider>
+        <TooltipProvider>
+          <LocaleProvider>
+            <ErrorBoundary>{children}</ErrorBoundary>
+          </LocaleProvider>
+        </TooltipProvider>
         <Analytics />
       </body>
     </html>
