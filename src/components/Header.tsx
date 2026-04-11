@@ -24,6 +24,9 @@ export function Header() {
         <div className="relative">
           <button
             onClick={() => setIsOpen(!isOpen)}
+            aria-label="언어 선택"
+            aria-expanded={isOpen}
+            aria-haspopup="listbox"
             className="flex items-center gap-1.5 rounded-lg border border-white/10 bg-white/5 px-3 py-1.5 text-sm text-zinc-400 transition-all hover:border-indigo-500/30 hover:text-indigo-400"
           >
             <Globe className="h-4 w-4" />
@@ -31,10 +34,16 @@ export function Header() {
           </button>
 
           {isOpen && (
-            <div className="absolute top-full right-0 mt-2 w-36 rounded-xl border border-white/10 bg-zinc-800 py-2 shadow-2xl">
+            <div
+              role="listbox"
+              aria-label="언어 목록"
+              className="absolute top-full right-0 mt-2 w-36 rounded-xl border border-white/10 bg-zinc-800 py-2 shadow-2xl"
+            >
               {LOCALES.map((l) => (
                 <button
                   key={l}
+                  role="option"
+                  aria-selected={locale === l}
                   onClick={() => {
                     setLocale(l);
                     setIsOpen(false);

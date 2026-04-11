@@ -15,7 +15,11 @@ export function ScoreIndicator({ score }: Props) {
     <div className="flex w-48 shrink-0 flex-col items-center justify-center rounded-2xl border border-white/5 bg-zinc-900 p-6 text-center">
       <span className="mb-2 text-sm font-medium text-zinc-400">{t("score.title")}</span>
       <div className="relative mb-4 flex items-center justify-center">
-        <svg className="h-24 w-24 -rotate-90 transform">
+        <svg
+          className="h-24 w-24 -rotate-90 transform"
+          role="img"
+          aria-label={`${t("score.title")} ${score}점`}
+        >
           <circle
             cx="48"
             cy="48"

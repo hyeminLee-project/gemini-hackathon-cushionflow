@@ -20,6 +20,9 @@ export function MbtiSelector({ mbti, onMbtiChange }: Props) {
       <div className="relative">
         <button
           onClick={() => setIsOpen(!isOpen)}
+          aria-label="MBTI 유형 선택"
+          aria-expanded={isOpen}
+          aria-haspopup="listbox"
           className="flex w-full items-center justify-between rounded-xl border border-white/5 bg-black/40 px-4 py-3 text-left transition-colors hover:bg-black/60"
         >
           <span className="font-semibold text-zinc-200">
@@ -29,8 +32,14 @@ export function MbtiSelector({ mbti, onMbtiChange }: Props) {
         </button>
 
         {isOpen && (
-          <div className="custom-scrollbar absolute top-full left-0 z-50 mt-2 max-h-64 w-48 overflow-y-auto rounded-xl border border-white/10 bg-zinc-800 py-2 shadow-2xl">
+          <div
+            role="listbox"
+            aria-label="MBTI 유형 목록"
+            className="custom-scrollbar absolute top-full left-0 z-50 mt-2 max-h-64 w-48 overflow-y-auto rounded-xl border border-white/10 bg-zinc-800 py-2 shadow-2xl"
+          >
             <button
+              role="option"
+              aria-selected={mbti === "UNKNOWN"}
               className={`w-full px-4 py-2 text-left transition-colors hover:bg-white/5 ${mbti === "UNKNOWN" ? "bg-indigo-500/10 font-bold text-indigo-400" : "text-zinc-400"}`}
               onClick={() => {
                 onMbtiChange("UNKNOWN");
@@ -44,6 +53,8 @@ export function MbtiSelector({ mbti, onMbtiChange }: Props) {
             {MBTI_TYPES.filter((type) => type !== "UNKNOWN").map((type) => (
               <button
                 key={type}
+                role="option"
+                aria-selected={mbti === type}
                 className={`w-full px-4 py-2 text-left transition-colors hover:bg-white/5 ${mbti === type ? "bg-indigo-500/10 font-bold text-indigo-400" : "text-zinc-300"}`}
                 onClick={() => {
                   onMbtiChange(type);

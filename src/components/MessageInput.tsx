@@ -65,6 +65,7 @@ export function MessageInput({
             />
             <button
               onClick={onClearImage}
+              aria-label="이미지 삭제"
               className="absolute -top-2 -right-2 rounded-full bg-red-500 p-1 text-white shadow-md transition-colors hover:bg-red-600"
             >
               <X className="h-4 w-4" />
