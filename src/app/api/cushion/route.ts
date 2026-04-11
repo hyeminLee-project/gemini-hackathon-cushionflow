@@ -4,6 +4,7 @@ import { cushionRequestSchema, cushionResponseSchema } from "@/lib/types";
 import { buildCushionPrompt } from "@/lib/prompts";
 import { createRateLimit } from "@/lib/rate-limit";
 import { supabase } from "@/lib/supabase";
+import { logger } from "@/lib/logger";
 
 const TIMEOUT_MS = 30_000;
 const limiter = createRateLimit({ windowMs: 60_000, maxRequests: 10 });
@@ -68,7 +69,7 @@ export async function POST(req: Request) {
     );
 
     if (!responseParsed.success) {
-      console.error("Failed to parse Gemini response:", jsonString);
+      logger.error("Failed to parse Gemini response", "cushion-api", { rawResponse: jsonString });
       return NextResponse.json(
         { error: "AI 응답을 파싱하는 데 실패했습니다. 잠시 후 다시 시도해주세요." },
         { status: 502 }
@@ -86,12 +87,12 @@ export async function POST(req: Request) {
         korean_translation: data.koreanTranslation ?? null,
         insights: data.insights,
       });
-      if (dbError) console.error("Failed to save history:", JSON.stringify(dbError));
+      if (dbError) logger.error("Failed to save history", "cushion-api", dbError);
     }
 
     return NextResponse.json(data);
   } catch (error) {
-    console.error("Gemini API Error:", error);
+    logger.error("Gemini API request failed", "cushion-api", error);
     return NextResponse.json(
       { error: "메시지 변환 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요." },
       { status: 500 }
