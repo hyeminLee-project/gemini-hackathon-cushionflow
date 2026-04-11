@@ -8,6 +8,7 @@ import { MessageInput } from "@/components/MessageInput";
 import { MbtiSelector } from "@/components/MbtiSelector";
 import { ContextSelector } from "@/components/ContextSelector";
 import { ResultCard } from "@/components/ResultCard";
+import { ResultSkeleton } from "@/components/ResultSkeleton";
 import { useImageUpload } from "@/hooks/useImageUpload";
 import { useCushionConvert } from "@/hooks/useCushionConvert";
 import { useLocale } from "@/hooks/useLocale";
@@ -127,7 +128,10 @@ export default function Home() {
           </div>
         </div>
 
-        <div ref={resultRef}>{result && <ResultCard result={result} />}</div>
+        <div ref={resultRef}>
+          {isLoading && <ResultSkeleton />}
+          {result && !isLoading && <ResultCard result={result} />}
+        </div>
       </main>
     </div>
   );
