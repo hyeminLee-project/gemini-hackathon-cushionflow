@@ -44,4 +44,33 @@ describe("buildCushionPrompt", () => {
     const result = buildCushionPrompt({ ...baseInput, locale: "ko" });
     expect(result).toContain("Korean");
   });
+
+  it("contains MBTI communication guideline for known type", () => {
+    const result = buildCushionPrompt(baseInput);
+    expect(result).toContain("커뮤니케이션 가이드");
+    expect(result).toContain("간결하게 요점을 전달");
+  });
+
+  it("contains MBTI guideline fallback for UNKNOWN", () => {
+    const result = buildCushionPrompt({ ...baseInput, mbti: "UNKNOWN" });
+    expect(result).toContain("일반적인 비즈니스 예절");
+  });
+
+  it("contains tone instruction for known context", () => {
+    const result = buildCushionPrompt(baseInput);
+    expect(result).toContain("톤 가이드");
+    expect(result).toContain("긴급 사유를 먼저 설명");
+  });
+
+  it("handles unknown context without tone instruction line", () => {
+    const result = buildCushionPrompt({ ...baseInput, context: "기타 상황" });
+    expect(result).toContain("기타 상황");
+    expect(result).not.toContain("톤 가이드: ");
+  });
+
+  it("contains scoring criteria bands", () => {
+    const result = buildCushionPrompt(baseInput);
+    expect(result).toContain("90~100점");
+    expect(result).toContain("0~29점");
+  });
 });
