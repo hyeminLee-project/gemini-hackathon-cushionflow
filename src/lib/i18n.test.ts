@@ -67,7 +67,7 @@ describe("LOCALE_LABELS", () => {
 });
 
 describe("CONTEXT_KEYS", () => {
-  it("has 6 context options", () => {
-    expect(CONTEXT_KEYS).toHaveLength(6);
+  it("has 15 context options", () => {
+    expect(CONTEXT_KEYS).toHaveLength(15);
   });
 });

@@ -1,4 +1,6 @@
 import { CushionRequestPayload } from "./types";
+import { MBTI_GUIDELINES } from "./mbti-guidelines";
+import { CONTEXT_TONE_INSTRUCTIONS } from "./context-tones";
 
 const LOCALE_NAMES: Record<string, string> = {
   ko: "Korean",
@@ -19,10 +21,16 @@ export function buildCushionPrompt({
     ? `\n    - 원본 메시지 텍스트: "${originalMessage}"`
     : `\n    - 원본 메시지 텍스트: (제공되지 않음. 첨부된 이미지 내용을 원본 메시지로 간주하고 분석해주세요.)`;
 
+  const mbtiGuideline = MBTI_GUIDELINES[mbti] ?? MBTI_GUIDELINES["UNKNOWN"];
   const mbtiLine =
     mbti === "UNKNOWN"
-      ? "- 수신자 업무 성향 (MBTI): 알 수 없음 (일반적인 비즈니스 예절 기준으로 작성)"
-      : `- 수신자 업무 성향 (MBTI): ${mbti}`;
+      ? `- 수신자 업무 성향 (MBTI): 알 수 없음\n    - 커뮤니케이션 가이드: ${mbtiGuideline}`
+      : `- 수신자 업무 성향 (MBTI): ${mbti}\n    - 커뮤니케이션 가이드: ${mbtiGuideline}`;
+
+  const toneInstruction = CONTEXT_TONE_INSTRUCTIONS[context] ?? "";
+  const contextLine = toneInstruction
+    ? `- 상황 맥락: ${context}\n    - 톤 가이드: ${toneInstruction}`
+    : `- 상황 맥락: ${context}`;
 
   const insightsLang = LOCALE_NAMES[locale] ?? "Korean";
   const needsTranslation = locale !== "ko";
@@ -33,11 +41,16 @@ export function buildCushionPrompt({
 
     [입력 데이터]${messagePromptText}
     ${mbtiLine}
-    - 상황 맥락: ${context}
+    ${contextLine}
 
     [요청 사항]
-    1. 원본 메시지가 그대로 전송될 경우 갈등이 발생할 리스크를 반대로 환산하여 '쿠션 지수(0~100점)'로 평가하세요 (100점이 가장 갈등 요소 없고 정중함).
-    2. 수신자의 업무 스타일과 주어진 상황 맥락을 배려하여 원본 메시지를 수정하세요. 비즈니스 생산성을 높일 수 있는 1차 제안을 작성합니다.
+    1. 원본 메시지의 '쿠션 지수(0~100점)'를 다음 기준으로 평가하세요 (100점이 가장 갈등 요소 없고 정중함):
+       - 90~100점: 갈등 요소 없음, 충분한 배려 표현
+       - 70~89점: 소폭 개선 가능하나 수용 가능한 수준
+       - 50~69점: 오해 소지 있음, 어조 조정 필요
+       - 30~49점: 갈등 유발 가능성 높음
+       - 0~29점: 즉시 수정 필요
+    2. 수신자의 업무 스타일과 주어진 상황 맥락, 커뮤니케이션 가이드와 톤 가이드를 반영하여 원본 메시지를 수정하세요. 비즈니스 생산성을 높일 수 있는 1차 제안을 작성합니다.
     3. 왜 이렇게 수정했는지 비즈니스/커뮤니케이션적 근거를 3~4개의 핵심 포인트로 나누어 에이전트 분석을 제공하세요.
 
     [다국어 처리 특별 규칙]
