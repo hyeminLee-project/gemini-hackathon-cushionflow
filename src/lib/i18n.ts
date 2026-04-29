@@ -132,7 +132,8 @@ const translations: Record<Locale, Record<string, string>> = {
     "context.afterhours.desc": "Reaching out outside of work hours",
     "context.custom": "Custom input",
     "context.custom.desc": "Describe your situation freely",
-    "context.custom.placeholder": "Describe the situation (e.g., requesting project deadline extension)",
+    "context.custom.placeholder":
+      "Describe the situation (e.g., requesting project deadline extension)",
     "score.title": "Cushion Index",
     "score.safe": "Safe message 🟢",
     "score.caution": "Needs some caution 🟡",
@@ -429,7 +430,8 @@ const translations: Record<Locale, Record<string, string>> = {
     "context.afterhours.desc": "Außerhalb der Arbeitszeit kontaktieren",
     "context.custom": "Eigene Eingabe",
     "context.custom.desc": "Beschreiben Sie Ihre Situation frei",
-    "context.custom.placeholder": "Beschreiben Sie die Situation (z.B.: Verlängerung der Projektfrist anfragen)",
+    "context.custom.placeholder":
+      "Beschreiben Sie die Situation (z.B.: Verlängerung der Projektfrist anfragen)",
     "score.title": "Polster-Index",
     "score.safe": "Sichere Nachricht 🟢",
     "score.caution": "Etwas Vorsicht nötig 🟡",

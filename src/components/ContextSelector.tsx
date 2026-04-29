@@ -67,7 +67,7 @@ export function ContextSelector({ context, onContextChange }: Props) {
           }}
           maxLength={100}
           placeholder={t("context.custom.placeholder")}
-          className="mt-3 w-full rounded-xl border border-white/10 bg-black/40 px-4 py-3 text-sm text-zinc-200 placeholder-zinc-500 focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"
+          className="mt-3 w-full rounded-xl border border-white/10 bg-black/40 px-4 py-3 text-sm text-zinc-200 placeholder-zinc-500 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 focus:outline-none"
           autoFocus
         />
       )}
