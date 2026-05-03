@@ -22,10 +22,11 @@ export function buildCushionPrompt({
     : `\n    - 원본 메시지 텍스트: (제공되지 않음. 첨부된 이미지 내용을 원본 메시지로 간주하고 분석해주세요.)`;
 
   const mbtiGuideline = MBTI_GUIDELINES[mbti] ?? MBTI_GUIDELINES["UNKNOWN"];
-  const mbtiLine =
-    mbti === "UNKNOWN"
-      ? `- 수신자 업무 성향 (MBTI): 알 수 없음\n    - 커뮤니케이션 가이드: ${mbtiGuideline}`
-      : `- 수신자 업무 성향 (MBTI): ${mbti}\n    - 커뮤니케이션 가이드: ${mbtiGuideline}`;
+  const mbtiLabel = mbti === "UNKNOWN" ? "알 수 없음" : mbti;
+  const mbtiLine = `- 수신자 업무 성향 (MBTI): ${mbtiLabel}
+    - 선호하는 메시지 구조: ${mbtiGuideline.preferred}
+    - 피해야 할 표현: ${mbtiGuideline.avoid}
+    - 효과적인 설득 패턴: ${mbtiGuideline.persuasion}`;
 
   const toneInstruction = CONTEXT_TONE_INSTRUCTIONS[context] ?? "";
   const contextLine = toneInstruction
