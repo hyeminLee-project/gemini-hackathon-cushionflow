@@ -1,6 +1,7 @@
 import { CushionRequestPayload } from "./types";
 import { MBTI_GUIDELINES } from "./mbti-guidelines";
 import { CONTEXT_TONE_INSTRUCTIONS } from "./context-tones";
+import { getCombinationAdvice } from "./mbti-combinations";
 
 const LOCALE_NAMES: Record<string, string> = {
   ko: "Korean",
@@ -34,6 +35,11 @@ export function buildCushionPrompt({
     - 피해야 할 표현: ${mbtiGuideline.avoid}
     - 효과적인 설득 패턴: ${mbtiGuideline.persuasion}`;
 
+  const combinationAdvice = getCombinationAdvice(senderMbti, mbti);
+  const combinationLine = combinationAdvice
+    ? `\n    - 발신자-수신자 조합 조언: ${combinationAdvice}`
+    : "";
+
   const toneInstruction = CONTEXT_TONE_INSTRUCTIONS[context] ?? "";
   const contextLine = toneInstruction
     ? `- 상황 맥락: ${context}\n    - 톤 가이드: ${toneInstruction}`
@@ -48,7 +54,7 @@ export function buildCushionPrompt({
 
     [입력 데이터]${messagePromptText}
     ${senderLine}
-    ${mbtiLine}
+    ${mbtiLine}${combinationLine}
     ${contextLine}
 
     [요청 사항]
