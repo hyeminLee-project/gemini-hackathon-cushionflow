@@ -8,15 +8,24 @@ import { useLocale } from "@/hooks/useLocale";
 interface Props {
   mbti: string;
   onMbtiChange: (value: string) => void;
+  labelKey?: string;
+  footerKey?: string;
+  footerUnknownKey?: string;
 }
 
-export function MbtiSelector({ mbti, onMbtiChange }: Props) {
+export function MbtiSelector({
+  mbti,
+  onMbtiChange,
+  labelKey = "mbti.label",
+  footerKey = "mbti.footer",
+  footerUnknownKey = "mbti.footer.unknown",
+}: Props) {
   const [isOpen, setIsOpen] = useState(false);
   const { t } = useLocale();
 
   return (
     <div className="relative rounded-2xl border border-white/10 bg-zinc-900/50 p-6 backdrop-blur-md">
-      <label className="mb-3 block text-sm font-semibold text-zinc-400">{t("mbti.label")}</label>
+      <label className="mb-3 block text-sm font-semibold text-zinc-400">{t(labelKey)}</label>
       <div className="relative">
         <button
           onClick={() => setIsOpen(!isOpen)}
@@ -70,7 +79,7 @@ export function MbtiSelector({ mbti, onMbtiChange }: Props) {
       </div>
       <p className="mt-3 flex items-center gap-1 text-xs text-zinc-500">
         <ShieldCheck className="h-3 w-3" />{" "}
-        {mbti === "UNKNOWN" ? t("mbti.footer.unknown") : t("mbti.footer", { mbti })}
+        {mbti === "UNKNOWN" ? t(footerUnknownKey) : t(footerKey, { mbti })}
       </p>
     </div>
   );

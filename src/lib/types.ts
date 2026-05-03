@@ -24,6 +24,7 @@ export const cushionRequestSchema = z
   .object({
     originalMessage: z.string().max(2000).default(""),
     mbti: z.enum(MBTI_TYPES),
+    senderMbti: z.enum(MBTI_TYPES).default("UNKNOWN"),
     context: z.string().min(1).max(100),
     imageBase64: z.string().max(7_000_000).nullable().optional(),
     imageMimeType: z

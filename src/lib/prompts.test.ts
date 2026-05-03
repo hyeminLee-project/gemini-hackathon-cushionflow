@@ -5,6 +5,7 @@ describe("buildCushionPrompt", () => {
   const baseInput = {
     originalMessage: "내일까지 보고서 보내주세요",
     mbti: "ENTJ" as const,
+    senderMbti: "UNKNOWN" as const,
     context: "긴급 요청",
     locale: "ko" as const,
   };

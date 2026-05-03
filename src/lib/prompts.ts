@@ -14,12 +14,18 @@ const LOCALE_NAMES: Record<string, string> = {
 export function buildCushionPrompt({
   originalMessage,
   mbti,
+  senderMbti = "UNKNOWN",
   context,
   locale = "ko",
 }: CushionRequestPayload): string {
   const messagePromptText = originalMessage
     ? `\n    - 원본 메시지 텍스트: "${originalMessage}"`
     : `\n    - 원본 메시지 텍스트: (제공되지 않음. 첨부된 이미지 내용을 원본 메시지로 간주하고 분석해주세요.)`;
+
+  const senderGuideline = MBTI_GUIDELINES[senderMbti] ?? MBTI_GUIDELINES["UNKNOWN"];
+  const senderLabel = senderMbti === "UNKNOWN" ? "알 수 없음" : senderMbti;
+  const senderLine = `- 발신자 업무 성향 (MBTI): ${senderLabel}
+    - 이 유형의 커뮤니케이션 특성: ${senderGuideline.preferred}`;
 
   const mbtiGuideline = MBTI_GUIDELINES[mbti] ?? MBTI_GUIDELINES["UNKNOWN"];
   const mbtiLabel = mbti === "UNKNOWN" ? "알 수 없음" : mbti;
@@ -41,6 +47,7 @@ export function buildCushionPrompt({
     사용자가 작성한 메시지(또는 첨부된 스크린샷 이미지)를 분석하고, 수신자의 업무 성향(MBTI)과 상황 맥락을 고려하여 사내 갈등을 예방하는 건설적이고 정중한 '쿠션어'로 변환해 주세요.
 
     [입력 데이터]${messagePromptText}
+    ${senderLine}
     ${mbtiLine}
     ${contextLine}
 
