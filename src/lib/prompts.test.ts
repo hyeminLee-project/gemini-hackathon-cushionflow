@@ -5,6 +5,7 @@ describe("buildCushionPrompt", () => {
   const baseInput = {
     originalMessage: "내일까지 보고서 보내주세요",
     mbti: "ENTJ" as const,
+    senderMbti: "UNKNOWN" as const,
     context: "긴급 요청",
     locale: "ko" as const,
   };
@@ -47,13 +48,14 @@ describe("buildCushionPrompt", () => {
 
   it("contains MBTI communication guideline for known type", () => {
     const result = buildCushionPrompt(baseInput);
-    expect(result).toContain("커뮤니케이션 가이드");
-    expect(result).toContain("간결하게 요점을 전달");
+    expect(result).toContain("선호하는 메시지 구조");
+    expect(result).toContain("피해야 할 표현");
+    expect(result).toContain("효과적인 설득 패턴");
   });
 
   it("contains MBTI guideline fallback for UNKNOWN", () => {
     const result = buildCushionPrompt({ ...baseInput, mbti: "UNKNOWN" });
-    expect(result).toContain("일반적인 비즈니스 예절");
+    expect(result).toContain("일반적인 비즈니스 예절을 따르세요");
   });
 
   it("contains tone instruction for known context", () => {

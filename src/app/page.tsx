@@ -16,6 +16,7 @@ import { useLocale } from "@/hooks/useLocale";
 export default function Home() {
   const { t } = useLocale();
   const [message, setMessage] = useState("");
+  const [senderMbti, setSenderMbti] = useState("UNKNOWN");
   const [mbti, setMbti] = useState("INFP");
   const [context, setContext] = useState("휴가 중 보고");
 
@@ -33,6 +34,7 @@ export default function Home() {
     convert({
       message,
       mbti,
+      senderMbti,
       context,
       imageBase64: image.imageBase64,
       imageMimeType: image.imageMimeType,
@@ -45,9 +47,11 @@ export default function Home() {
     setMessage(demoMessage);
     setMbti(demoMbti);
     setContext(demoContext);
+    setSenderMbti("UNKNOWN");
     convert({
       message: demoMessage,
       mbti: demoMbti,
+      senderMbti: "UNKNOWN",
       context: demoContext,
       imageBase64: null,
       imageMimeType: null,
@@ -93,9 +97,16 @@ export default function Home() {
           />
 
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+            <MbtiSelector
+              mbti={senderMbti}
+              onMbtiChange={setSenderMbti}
+              labelKey="senderMbti.label"
+              footerKey="senderMbti.footer"
+              footerUnknownKey="senderMbti.footer.unknown"
+            />
             <MbtiSelector mbti={mbti} onMbtiChange={setMbti} />
-            <ContextSelector context={context} onContextChange={setContext} />
           </div>
+          <ContextSelector context={context} onContextChange={setContext} />
 
           {error && (
             <div

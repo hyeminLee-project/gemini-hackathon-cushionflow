@@ -1,6 +1,8 @@
 import { CushionRequestPayload } from "./types";
 import { MBTI_GUIDELINES } from "./mbti-guidelines";
 import { CONTEXT_TONE_INSTRUCTIONS } from "./context-tones";
+import { getCombinationAdvice } from "./mbti-combinations";
+import { getExampleForMbti } from "./prompt-examples";
 
 const LOCALE_NAMES: Record<string, string> = {
   ko: "Korean",
@@ -14,6 +16,7 @@ const LOCALE_NAMES: Record<string, string> = {
 export function buildCushionPrompt({
   originalMessage,
   mbti,
+  senderMbti = "UNKNOWN",
   context,
   locale = "ko",
 }: CushionRequestPayload): string {
@@ -21,16 +24,36 @@ export function buildCushionPrompt({
     ? `\n    - 원본 메시지 텍스트: "${originalMessage}"`
     : `\n    - 원본 메시지 텍스트: (제공되지 않음. 첨부된 이미지 내용을 원본 메시지로 간주하고 분석해주세요.)`;
 
+  const senderGuideline = MBTI_GUIDELINES[senderMbti] ?? MBTI_GUIDELINES["UNKNOWN"];
+  const senderLabel = senderMbti === "UNKNOWN" ? "알 수 없음" : senderMbti;
+  const senderLine = `- 발신자 업무 성향 (MBTI): ${senderLabel}
+    - 이 유형의 커뮤니케이션 특성: ${senderGuideline.preferred}`;
+
   const mbtiGuideline = MBTI_GUIDELINES[mbti] ?? MBTI_GUIDELINES["UNKNOWN"];
-  const mbtiLine =
-    mbti === "UNKNOWN"
-      ? `- 수신자 업무 성향 (MBTI): 알 수 없음\n    - 커뮤니케이션 가이드: ${mbtiGuideline}`
-      : `- 수신자 업무 성향 (MBTI): ${mbti}\n    - 커뮤니케이션 가이드: ${mbtiGuideline}`;
+  const mbtiLabel = mbti === "UNKNOWN" ? "알 수 없음" : mbti;
+  const mbtiLine = `- 수신자 업무 성향 (MBTI): ${mbtiLabel}
+    - 선호하는 메시지 구조: ${mbtiGuideline.preferred}
+    - 피해야 할 표현: ${mbtiGuideline.avoid}
+    - 효과적인 설득 패턴: ${mbtiGuideline.persuasion}`;
+
+  const combinationAdvice = getCombinationAdvice(senderMbti, mbti);
+  const combinationLine = combinationAdvice
+    ? `\n    - 발신자-수신자 조합 조언: ${combinationAdvice}`
+    : "";
 
   const toneInstruction = CONTEXT_TONE_INSTRUCTIONS[context] ?? "";
   const contextLine = toneInstruction
     ? `- 상황 맥락: ${context}\n    - 톤 가이드: ${toneInstruction}`
     : `- 상황 맥락: ${context}`;
+
+  const example = getExampleForMbti(mbti);
+  const exampleBlock = example
+    ? `
+
+    [참고 예시 — ${example.group} 수신자 대상]
+    - Before: "${example.before}"
+    - After: "${example.after}"`
+    : "";
 
   const insightsLang = LOCALE_NAMES[locale] ?? "Korean";
   const needsTranslation = locale !== "ko";
@@ -40,8 +63,9 @@ export function buildCushionPrompt({
     사용자가 작성한 메시지(또는 첨부된 스크린샷 이미지)를 분석하고, 수신자의 업무 성향(MBTI)과 상황 맥락을 고려하여 사내 갈등을 예방하는 건설적이고 정중한 '쿠션어'로 변환해 주세요.
 
     [입력 데이터]${messagePromptText}
-    ${mbtiLine}
-    ${contextLine}
+    ${senderLine}
+    ${mbtiLine}${combinationLine}
+    ${contextLine}${exampleBlock}
 
     [요청 사항]
     1. 원본 메시지의 '쿠션 지수(0~100점)'를 다음 기준으로 평가하세요 (100점이 가장 갈등 요소 없고 정중함):
@@ -51,7 +75,11 @@ export function buildCushionPrompt({
        - 30~49점: 갈등 유발 가능성 높음
        - 0~29점: 즉시 수정 필요
     2. 수신자의 업무 스타일과 주어진 상황 맥락, 커뮤니케이션 가이드와 톤 가이드를 반영하여 원본 메시지를 수정하세요. 비즈니스 생산성을 높일 수 있는 1차 제안을 작성합니다.
-    3. 왜 이렇게 수정했는지 비즈니스/커뮤니케이션적 근거를 3~4개의 핵심 포인트로 나누어 에이전트 분석을 제공하세요.
+    3. 에이전트 분석을 4개의 관점으로 나누어 제공하세요:
+       - MBTI 관점: 수신자의 MBTI 유형에 이 표현이 효과적인 이유
+       - 상황 관점: 이 맥락에서 선택한 쿠션어 패턴이 적절한 이유
+       - 관계 관점: 발신자-수신자 역학에서의 커뮤니케이션 조언
+       - 비즈니스 관점: 이 수정이 업무 생산성과 협업에 미치는 긍정적 영향
 
     [다국어 처리 특별 규칙]
     - 제안하는 쿠션어 메시지(suggestion)는 **반드시 사용자가 입력한 메시지 또는 이미지 내 텍스트 언어와 완벽히 동일한 언어**로 작성하세요.

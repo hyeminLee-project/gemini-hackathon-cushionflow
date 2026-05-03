@@ -33,9 +33,10 @@ export async function POST(req: Request) {
     if (!parsed.success) {
       return NextResponse.json({ error: parsed.error.issues[0].message }, { status: 400 });
     }
-    const { originalMessage, mbti, context, imageBase64, imageMimeType, locale } = parsed.data;
+    const { originalMessage, mbti, senderMbti, context, imageBase64, imageMimeType, locale } =
+      parsed.data;
 
-    const prompt = buildCushionPrompt({ originalMessage, mbti, context, locale });
+    const prompt = buildCushionPrompt({ originalMessage, mbti, senderMbti, context, locale });
     const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
 
     const contents =

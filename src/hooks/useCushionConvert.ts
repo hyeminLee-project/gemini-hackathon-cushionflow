@@ -13,6 +13,7 @@ export function useCushionConvert() {
   const convert = async (params: {
     message: string;
     mbti: string;
+    senderMbti: string;
     context: string;
     imageBase64: string | null;
     imageMimeType: string | null;
@@ -33,6 +34,7 @@ export function useCushionConvert() {
         body: JSON.stringify({
           originalMessage: params.message,
           mbti: params.mbti,
+          senderMbti: params.senderMbti,
           context: params.context,
           imageBase64: params.imageBase64,
           imageMimeType: params.imageMimeType,
