@@ -2,6 +2,7 @@ import { CushionRequestPayload } from "./types";
 import { MBTI_GUIDELINES } from "./mbti-guidelines";
 import { CONTEXT_TONE_INSTRUCTIONS } from "./context-tones";
 import { getCombinationAdvice } from "./mbti-combinations";
+import { getExampleForMbti } from "./prompt-examples";
 
 const LOCALE_NAMES: Record<string, string> = {
   ko: "Korean",
@@ -45,6 +46,15 @@ export function buildCushionPrompt({
     ? `- 상황 맥락: ${context}\n    - 톤 가이드: ${toneInstruction}`
     : `- 상황 맥락: ${context}`;
 
+  const example = getExampleForMbti(mbti);
+  const exampleBlock = example
+    ? `
+
+    [참고 예시 — ${example.group} 수신자 대상]
+    - Before: "${example.before}"
+    - After: "${example.after}"`
+    : "";
+
   const insightsLang = LOCALE_NAMES[locale] ?? "Korean";
   const needsTranslation = locale !== "ko";
 
@@ -55,7 +65,7 @@ export function buildCushionPrompt({
     [입력 데이터]${messagePromptText}
     ${senderLine}
     ${mbtiLine}${combinationLine}
-    ${contextLine}
+    ${contextLine}${exampleBlock}
 
     [요청 사항]
     1. 원본 메시지의 '쿠션 지수(0~100점)'를 다음 기준으로 평가하세요 (100점이 가장 갈등 요소 없고 정중함):
