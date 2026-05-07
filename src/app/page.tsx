@@ -1,8 +1,10 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useMemo } from "react";
 import { Sparkles, Loader2, AlertCircle } from "lucide-react";
 import { Header } from "@/components/Header";
+import { ScorePreview } from "@/components/ScorePreview";
+import { calculateClientScore } from "@/lib/client-score";
 import { DemoCard } from "@/components/DemoCard";
 import { MessageInput } from "@/components/MessageInput";
 import { MbtiSelector } from "@/components/MbtiSelector";
@@ -20,6 +22,7 @@ export default function Home() {
   const [mbti, setMbti] = useState("INFP");
   const [context, setContext] = useState("휴가 중 보고");
 
+  const previewScore = useMemo(() => calculateClientScore(message), [message]);
   const { isLoading, result, error, setError, convert } = useCushionConvert();
   const image = useImageUpload(setError);
   const resultRef = useRef<HTMLDivElement>(null);
@@ -95,6 +98,7 @@ export default function Home() {
             onDrop={image.handleDrop}
             fileInputRef={image.fileInputRef}
           />
+          <ScorePreview score={previewScore} />
 
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
             <MbtiSelector
