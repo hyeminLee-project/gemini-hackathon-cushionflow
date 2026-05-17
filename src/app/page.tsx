@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect, useMemo } from "react";
-import { Sparkles, Loader2, AlertCircle } from "lucide-react";
+import { Sparkles, Loader2, AlertCircle, ChevronDown, MessageSquare } from "lucide-react";
 import { Header } from "@/components/Header";
 import { ScorePreview } from "@/components/ScorePreview";
 import { calculateClientScore } from "@/lib/client-score";
@@ -19,6 +19,7 @@ export default function Home() {
   const { t } = useLocale();
   const [message, setMessage] = useState("");
   const [senderMbti, setSenderMbti] = useState("UNKNOWN");
+  const [showSenderMbti, setShowSenderMbti] = useState(false);
   const [mbti, setMbti] = useState("INFP");
   const [context, setContext] = useState("휴가 중 보고");
 
@@ -100,7 +101,21 @@ export default function Home() {
           />
           <ScorePreview score={previewScore} />
 
-          <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+          <MbtiSelector mbti={mbti} onMbtiChange={setMbti} />
+
+          <button
+            onClick={() => setShowSenderMbti(!showSenderMbti)}
+            className="flex w-full items-center gap-2 rounded-xl border border-white/5 bg-zinc-900/30 px-4 py-3 text-sm text-zinc-500 transition-all hover:border-white/10 hover:text-zinc-400"
+          >
+            <ChevronDown
+              className={`h-4 w-4 transition-transform ${showSenderMbti ? "rotate-180" : ""}`}
+            />
+            {t("senderMbti.toggle")}
+            {senderMbti !== "UNKNOWN" && (
+              <span className="ml-auto text-xs text-indigo-400">{senderMbti}</span>
+            )}
+          </button>
+          {showSenderMbti && (
             <MbtiSelector
               mbti={senderMbti}
               onMbtiChange={setSenderMbti}
@@ -108,8 +123,7 @@ export default function Home() {
               footerKey="senderMbti.footer"
               footerUnknownKey="senderMbti.footer.unknown"
             />
-            <MbtiSelector mbti={mbti} onMbtiChange={setMbti} />
-          </div>
+          )}
           <ContextSelector context={context} onContextChange={setContext} />
 
           {error && (
@@ -146,6 +160,13 @@ export default function Home() {
         <div ref={resultRef}>
           {isLoading && <ResultSkeleton />}
           {result && !isLoading && <ResultCard result={result} />}
+          {!isLoading && !result && (
+            <div className="mt-12 w-full max-w-3xl text-center">
+              <MessageSquare className="mx-auto mb-3 h-10 w-10 text-zinc-700" />
+              <p className="text-sm font-medium text-zinc-500">{t("result.empty")}</p>
+              <p className="mt-1 text-xs text-zinc-600">{t("result.empty.desc")}</p>
+            </div>
+          )}
         </div>
       </main>
     </div>

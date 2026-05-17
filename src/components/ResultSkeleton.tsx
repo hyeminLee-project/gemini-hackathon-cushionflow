@@ -1,4 +1,17 @@
+"use client";
+
+import { useState, useEffect } from "react";
+import { useLocale } from "@/hooks/useLocale";
+
 export function ResultSkeleton() {
+  const { t } = useLocale();
+  const [elapsed, setElapsed] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => setElapsed((s) => s + 1), 1000);
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <div className="animate-in fade-in slide-in-from-bottom-4 mt-12 w-full max-w-3xl space-y-6 duration-700">
       <div className="rounded-3xl bg-linear-to-br from-indigo-500/40 via-purple-500/40 to-rose-500/40 p-1">
@@ -29,6 +42,10 @@ export function ResultSkeleton() {
                   <div className="h-4 w-5/6 animate-pulse rounded bg-zinc-800" />
                 </div>
               </div>
+
+              <p className="text-center text-xs text-zinc-600">
+                {t("loading.elapsed", { seconds: String(elapsed) })}
+              </p>
             </div>
           </div>
         </div>
