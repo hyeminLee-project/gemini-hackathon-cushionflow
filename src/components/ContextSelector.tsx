@@ -28,7 +28,7 @@ export function ContextSelector({ context, onContextChange }: Props) {
                   setIsCustom(false);
                   onContextChange(value);
                 }}
-                className={`rounded-full border px-4 py-2 text-sm font-medium transition-all ${
+                className={`rounded-full border px-4 py-3 text-sm font-medium transition-all ${
                   !isCustom && context === value
                     ? "border-indigo-500 bg-indigo-600/30 text-indigo-200 shadow-[0_0_15px_rgba(99,102,241,0.2)]"
                     : "border-white/5 bg-black/40 text-zinc-400 hover:bg-white/5 hover:text-zinc-200"
@@ -46,7 +46,7 @@ export function ContextSelector({ context, onContextChange }: Props) {
               setIsCustom(true);
               onContextChange(customText);
             }}
-            className={`rounded-full border px-4 py-2 text-sm font-medium transition-all ${
+            className={`rounded-full border px-4 py-3 text-sm font-medium transition-all ${
               isCustom
                 ? "border-indigo-500 bg-indigo-600/30 text-indigo-200 shadow-[0_0_15px_rgba(99,102,241,0.2)]"
                 : "border-white/5 bg-black/40 text-zinc-400 hover:bg-white/5 hover:text-zinc-200"

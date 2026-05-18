@@ -24,7 +24,15 @@ export function MbtiSelector({
   const { t } = useLocale();
 
   return (
-    <div className="relative rounded-2xl border border-white/10 bg-zinc-900/50 p-6 backdrop-blur-md">
+    <div
+      className="relative rounded-2xl border border-white/10 bg-zinc-900/50 p-6 backdrop-blur-md"
+      onKeyDown={(e) => {
+        if (e.key === "Escape" && isOpen) {
+          setIsOpen(false);
+          e.stopPropagation();
+        }
+      }}
+    >
       <label className="mb-3 block text-sm font-semibold text-zinc-400">{t(labelKey)}</label>
       <div className="relative">
         <button
