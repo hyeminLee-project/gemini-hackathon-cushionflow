@@ -74,7 +74,10 @@ export function buildCushionPrompt({
        - 50~69점: 오해 소지 있음, 어조 조정 필요
        - 30~49점: 갈등 유발 가능성 높음
        - 0~29점: 즉시 수정 필요
-    2. 수신자의 업무 스타일과 주어진 상황 맥락, 커뮤니케이션 가이드와 톤 가이드를 반영하여 원본 메시지를 수정하세요. 비즈니스 생산성을 높일 수 있는 1차 제안을 작성합니다.
+    2. 수신자의 업무 스타일과 주어진 상황 맥락, 커뮤니케이션 가이드와 톤 가이드를 반영하여 원본 메시지를 수정하세요. 대표 제안(suggestion)과 함께 3가지 톤 변형(suggestions 배열)을 제공하세요:
+       - "격식체": 공식적이고 존댓말 중심의 비즈니스 어조
+       - "중립": 적당히 정중하면서 자연스러운 어조 (대표 제안과 동일)
+       - "친근": 부드럽고 친근한 어조 (존댓말은 유지하되 딱딱하지 않게)
     3. 에이전트 분석을 4개의 관점으로 나누어 제공하세요:
        - MBTI 관점: 수신자의 MBTI 유형에 이 표현이 효과적인 이유
        - 상황 관점: 이 맥락에서 선택한 쿠션어 패턴이 적절한 이유
@@ -89,8 +92,13 @@ export function buildCushionPrompt({
     [출력 형식] (반드시 JSON 포맷으로 응답할 것)
     {
       "score": 85,
-      "suggestion": "수정된 쿠션어 메시지",
+      "suggestion": "중립 톤의 대표 제안 메시지",
       "koreanTranslation": "한국어 번역 (한국어 원문일 경우 null)",
+      "suggestions": [
+        { "tone": "격식체", "suggestion": "격식체 변형", "koreanTranslation": null },
+        { "tone": "중립", "suggestion": "중립 변형 (suggestion과 동일)", "koreanTranslation": null },
+        { "tone": "친근", "suggestion": "친근 변형", "koreanTranslation": null }
+      ],
       "insights": [
         "분석 포인트 1 (${insightsLang}로 작성)",
         "분석 포인트 2 (${insightsLang}로 작성)"

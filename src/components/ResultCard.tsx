@@ -14,6 +14,7 @@ interface Props {
 export function ResultCard({ result }: Props) {
   const { t } = useLocale();
   const [isCopied, setIsCopied] = useState(false);
+  const [activeTone, setActiveTone] = useState(1);
   const copyTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
@@ -33,6 +34,15 @@ export function ResultCard({ result }: Props) {
     }
   };
 
+  const suggestions = result.suggestions;
+  const hasToneVariants = suggestions && suggestions.length > 0;
+  const activeSuggestion = hasToneVariants
+    ? (suggestions[activeTone]?.suggestion ?? result.suggestion)
+    : result.suggestion;
+  const activeTranslation = hasToneVariants
+    ? (suggestions[activeTone]?.koreanTranslation ?? result.koreanTranslation)
+    : result.koreanTranslation;
+
   return (
     <div
       aria-live="polite"
@@ -51,7 +61,7 @@ export function ResultCard({ result }: Props) {
                     {t("result.suggestion")}
                   </h3>
                   <button
-                    onClick={() => handleCopy(result.suggestion)}
+                    onClick={() => handleCopy(activeSuggestion)}
                     aria-label="추천 메시지 복사"
                     className="flex items-center gap-1.5 rounded-lg border border-white/10 bg-white/5 px-3 py-1.5 text-sm text-zinc-400 transition-all hover:border-indigo-500/30 hover:text-indigo-400"
                   >
@@ -68,19 +78,38 @@ export function ResultCard({ result }: Props) {
                     )}
                   </button>
                 </div>
+
+                {hasToneVariants && (
+                  <div className="mb-3 flex gap-1 rounded-lg border border-white/5 bg-black/30 p-1">
+                    {suggestions.map((variant, i) => (
+                      <button
+                        key={variant.tone}
+                        onClick={() => setActiveTone(i)}
+                        className={`flex-1 rounded-md px-3 py-2 text-xs font-medium transition-all ${
+                          activeTone === i
+                            ? "bg-indigo-600/30 text-indigo-200"
+                            : "text-zinc-500 hover:text-zinc-300"
+                        }`}
+                      >
+                        {variant.tone}
+                      </button>
+                    ))}
+                  </div>
+                )}
+
                 <div className="rounded-xl border border-white/10 bg-white/[0.03] p-5">
                   <p className="text-lg leading-relaxed whitespace-pre-wrap text-zinc-200">
-                    {result.suggestion}
+                    {activeSuggestion}
                   </p>
                 </div>
 
-                {result.koreanTranslation && (
+                {activeTranslation && (
                   <div className="mt-4 rounded-xl border border-indigo-500/20 bg-indigo-500/5 p-4">
                     <h4 className="mb-2 text-xs font-semibold tracking-wider text-indigo-400 uppercase">
                       {t("result.translation")}
                     </h4>
                     <p className="text-sm leading-relaxed whitespace-pre-wrap text-zinc-300">
-                      {result.koreanTranslation}
+                      {activeTranslation}
                     </p>
                   </div>
                 )}
