@@ -40,10 +40,17 @@ export const cushionRequestSchema = z
 
 export type CushionRequestPayload = z.infer<typeof cushionRequestSchema>;
 
+const toneVariantSchema = z.object({
+  tone: z.string().min(1),
+  suggestion: z.string().min(1),
+  koreanTranslation: z.string().nullable().optional(),
+});
+
 export const cushionResponseSchema = z.object({
   score: z.number().min(0).max(100),
   suggestion: z.string().min(1),
   koreanTranslation: z.string().nullable().optional(),
+  suggestions: z.array(toneVariantSchema).optional(),
   insights: z.array(z.string()),
 });
 
